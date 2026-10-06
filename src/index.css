@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Semantic Light Theme (active when html does not have .dark) */
+    --color-charcoal: #F8FAFC;
+    --color-panel: #FFFFFF;
+    --color-panel-elevated: #F1F5F9;
+    --color-steel: #334155;
+    --color-muted-steel: #64748B;
+    --color-soft-white: #0F172A;
+    --color-border-subtle: #E2E8F0;
+
+    /* Brand Burgundy Palette */
+    --color-burgundy: #7A1025;
+    --color-burgundy-bright: #A91535;
+    --color-burgundy-soft: #C74B63;
+    --color-burgundy-dark: #4A0714;
+    --color-burgundy-glow: rgba(169, 21, 53, 0.25);
+
+    /* Play Mode Response Colors */
+    --color-play-coral: #F0646A;
+    --color-play-coral-dark: #C94248;
+    --color-play-sky: #5AA9FF;
+    --color-play-sky-dark: #3787E0;
+    --color-play-gold: #F4C04E;
+    --color-play-gold-dark: #D49D26;
+    --color-play-mint: #46D19E;
+    --color-play-mint-dark: #2BB381;
+  }
+
+  /* Semantic Dark Theme */
+  html.dark {
+    --color-charcoal: #181A1C;
+    --color-panel: #212325;
+    --color-panel-elevated: #272A2D;
+    --color-steel: #BCC2CA;
+    --color-muted-steel: #8D949D;
+    --color-soft-white: #F3F4F6;
+    --color-border-subtle: #34383D;
+  }
+
+  * {
+    border-color: var(--color-border-subtle);
+  }
+
+  body {
+    background-color: var(--color-charcoal);
+    color: var(--color-soft-white);
+    font-family: var(--font-sans);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    overflow-x: hidden;
+  }
+
+  /* Focus styling */
+  :focus-visible {
+    outline: 2px solid var(--color-burgundy-bright);
+    outline-offset: 2px;
+  }
+
+  /* Markdown Code Block Styling */
+  pre {
+    background-color: var(--color-charcoal);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+  }
+  
+  pre code {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    background: transparent;
+    padding: 0;
+    border: none;
+    color: var(--color-soft-white);
+  }
+
+  code:not(pre code) {
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    background-color: var(--color-panel-elevated);
+    border: 1px solid var(--color-border-subtle);
+    padding: 0.15em 0.35em;
+    border-radius: 0.25rem;
+    color: var(--color-burgundy-bright);
+    word-break: break-word;
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-charcoal);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-subtle);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-burgundy-bright);
+  }
+}
