@@ -25,7 +25,7 @@ export const AssessmentBanner: React.FC<AssessmentBannerProps> = ({
   return (
     <div
       className={cn(
-        'w-full relative overflow-hidden rounded-xl border border-[var(--color-border-subtle)] bg-[var(--color-panel-elevated)] group shadow-md',
+        'w-full relative overflow-hidden rounded-xl border border-line bg-raised group shadow-md',
         aspectClass,
         className
       )}

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
+import { usePageReveal } from '@/hooks/usePageReveal';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAssessment } from '@/context/useAssessment';
 import { BrandLogo } from '@/components/brand/BrandLogo';
@@ -35,6 +36,8 @@ export const ParticipantPlayPage: React.FC = () => {
   const { getAssessmentBySlug, submitAssessment } = useAssessment();
 
   const assessment = getAssessmentBySlug(slug || '');
+  const revealRef = useRef<HTMLElement>(null);
+  usePageReveal(revealRef, assessment?.presentationMode === 'playful' ? 'playful' : 'formal', [questionNumber]);
 
   // Filter only actual interactive questions
   const questionBlocks = useMemo(() => {
@@ -201,11 +204,11 @@ export const ParticipantPlayPage: React.FC = () => {
 
   if (!assessment || !currentBlock) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--color-charcoal)] text-[var(--color-soft-white)] p-4 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-canvas text-ink p-4 text-center">
         <BrandLogo size="md" />
         <h2 className="text-xl font-bold mt-4">Question out of bounds</h2>
-        <p className="text-xs text-[var(--color-muted-steel)] mt-1">This question does not exist in the active assessment.</p>
-        <Link to={`/${slug || ''}/start`} className="mt-4 px-4 py-2 rounded bg-[#A91535] text-xs font-mono text-white">
+        <p className="text-xs text-muted mt-1">This question does not exist in the active assessment.</p>
+        <Link to={`/${slug || ''}/start`} className="mt-4 px-4 py-2 rounded bg-accent text-xs font-mono text-on-accent">
           Return to Lobby
         </Link>
       </div>
@@ -218,32 +221,32 @@ export const ParticipantPlayPage: React.FC = () => {
 
   const tileColors: Record<string, { bg: string; border: string; active: string; text: string; label: string }> = {
     coral: {
-      bg: 'bg-[#F0646A]',
-      border: 'border-[#C94248]',
-      active: 'ring-4 ring-white shadow-xl shadow-[#F0646A]/40',
-      text: 'text-white',
-      label: 'CORAL',
+      bg: 'bg-play-1',
+      border: 'border-play-1-deep',
+      active: 'ring-4 ring-ink shadow-xl shadow-play-1/40',
+      text: 'text-on-play',
+      label: 'RED',
     },
     sky: {
-      bg: 'bg-[#5AA9FF]',
-      border: 'border-[#3787E0]',
-      active: 'ring-4 ring-white shadow-xl shadow-[#5AA9FF]/40',
-      text: 'text-white',
-      label: 'SKY',
+      bg: 'bg-play-2',
+      border: 'border-play-2-deep',
+      active: 'ring-4 ring-ink shadow-xl shadow-play-2/40',
+      text: 'text-on-play',
+      label: 'BLUE',
     },
     gold: {
-      bg: 'bg-[#F4C04E]',
-      border: 'border-[#D49D26]',
-      active: 'ring-4 ring-white shadow-xl shadow-[#F4C04E]/40',
-      text: 'text-stone-900',
-      label: 'GOLD',
+      bg: 'bg-play-3',
+      border: 'border-play-3-deep',
+      active: 'ring-4 ring-ink shadow-xl shadow-play-3/40',
+      text: 'text-on-play-3',
+      label: 'YELLOW',
     },
     mint: {
-      bg: 'bg-[#46D19E]',
-      border: 'border-[#2BB381]',
-      active: 'ring-4 ring-white shadow-xl shadow-[#46D19E]/40',
-      text: 'text-stone-900',
-      label: 'MINT',
+      bg: 'bg-play-4',
+      border: 'border-play-4-deep',
+      active: 'ring-4 ring-ink shadow-xl shadow-play-4/40',
+      text: 'text-on-play',
+      label: 'GREEN',
     },
   };
 
@@ -339,9 +342,9 @@ export const ParticipantPlayPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[var(--color-charcoal)] text-[var(--color-soft-white)]">
+    <div className="min-h-screen flex flex-col justify-between bg-canvas text-ink">
       {/* Top Participant Navigation Bar */}
-      <header className="sticky top-0 z-40 w-full border-b border-[var(--color-border-subtle)] bg-[var(--color-charcoal)]/90 backdrop-blur-md px-3 sm:px-6 py-3">
+      <header className="sticky top-0 z-40 w-full border-b border-line bg-canvas/90 backdrop-blur-md px-3 sm:px-6 py-3">
         <div className="mx-auto max-w-4xl flex items-center justify-between gap-2 sm:gap-4">
           <BrandLogo size="sm" linkTo="/" />
 
@@ -358,7 +361,7 @@ export const ParticipantPlayPage: React.FC = () => {
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Activity continuous timer indicator in header */}
             {assessment.timeLimitEnabled && (
-              <div className="flex items-center gap-1 sm:gap-1.5 px-2 py-1 rounded bg-[var(--color-panel)] border border-[var(--color-border-subtle)] font-mono text-xs text-[#5AA9FF] font-semibold">
+              <div className="flex items-center gap-1 sm:gap-1.5 px-2 py-1 rounded bg-surface border border-line font-mono text-xs text-info font-semibold">
                 <Clock className="w-3.5 h-3.5 shrink-0" />
                 <span>
                   {Math.floor(activitySecondsLeft / 60)}:
@@ -371,14 +374,14 @@ export const ParticipantPlayPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSoundOn(!soundOn)}
-                className="p-1.5 rounded border border-[var(--color-border-subtle)] bg-[var(--color-panel)] text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] transition-colors cursor-pointer"
+                className="p-1.5 rounded border border-line bg-surface text-muted hover:text-ink transition-colors cursor-pointer"
                 title={soundOn ? 'Mute sound' : 'Enable sound'}
                 aria-label={soundOn ? 'Mute sound' : 'Enable sound'}
               >
-                {soundOn ? <Volume2 className="w-4 h-4 text-[#46D19E]" /> : <VolumeX className="w-4 h-4" />}
+                {soundOn ? <Volume2 className="w-4 h-4 text-success" /> : <VolumeX className="w-4 h-4" />}
               </button>
             )}
-            <span className="font-mono text-xs text-[var(--color-steel)] font-semibold bg-[var(--color-panel)] px-2 sm:px-2.5 py-1 rounded border border-[var(--color-border-subtle)] max-w-[100px] sm:max-w-[160px] truncate">
+            <span className="font-mono text-xs text-ink-soft font-semibold bg-surface px-2 sm:px-2.5 py-1 rounded border border-line max-w-[100px] sm:max-w-[160px] truncate">
               {sessionData.participantName}
             </span>
           </div>
@@ -397,7 +400,7 @@ export const ParticipantPlayPage: React.FC = () => {
       </header>
 
       {/* Question Presentation Stage */}
-      <main className="flex-1 flex flex-col items-center justify-center max-w-4xl w-full mx-auto px-4 py-8 sm:px-6">
+      <main ref={revealRef} className="flex-1 flex flex-col items-center justify-center max-w-4xl w-full mx-auto px-4 py-8 sm:px-6">
         <div className="w-full space-y-6 sm:space-y-8">
           <div className="flex flex-col items-center text-center space-y-4">
             {assessment.timeLimitEnabled && (
@@ -412,14 +415,14 @@ export const ParticipantPlayPage: React.FC = () => {
             )}
 
             <div className="space-y-2 max-w-3xl w-full px-1">
-              <span className="font-mono text-xs uppercase tracking-wider text-[#A91535] font-semibold">
+              <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
                 Question #{currentQIndex + 1} of {totalQuestions}
               </span>
-              <div className="text-lg sm:text-2xl md:text-3xl font-extrabold tracking-tight text-[var(--color-soft-white)] leading-snug break-words">
+              <div className="text-lg sm:text-2xl md:text-3xl font-extrabold tracking-tight text-ink leading-snug break-words">
                 <MarkdownView content={currentBlock.title} />
               </div>
               {currentBlock.description && (
-                <div className="text-xs sm:text-sm text-[var(--color-muted-steel)] max-w-2xl mx-auto leading-relaxed break-words">
+                <div className="text-xs sm:text-sm text-muted max-w-2xl mx-auto leading-relaxed break-words">
                   <MarkdownView content={currentBlock.description} />
                 </div>
               )}
@@ -473,20 +476,20 @@ export const ParticipantPlayPage: React.FC = () => {
                       className={cn(
                         'flex items-start gap-3.5 p-4 rounded-lg border text-left transition-all cursor-pointer min-h-[52px]',
                         isSelected
-                          ? 'border-[#A91535] bg-[#7A1025]/20 ring-1 ring-[#7A1025]'
-                          : 'border-[var(--color-border-subtle)] bg-[var(--color-panel)] hover:border-[var(--color-steel)] hover:bg-[var(--color-panel-elevated)]'
+                          ? 'border-accent bg-accent-deep/20 ring-1 ring-accent-deep'
+                          : 'border-line bg-surface hover:border-ink-soft hover:bg-raised'
                       )}
                     >
                       {/* Fixed radio circle with shrink-0 aspect-square */}
                       <div
                         className={cn(
                           'shrink-0 aspect-square w-5 h-5 min-w-[1.25rem] min-h-[1.25rem] mt-0.5 rounded-full flex items-center justify-center border transition-colors',
-                          isSelected ? 'border-[#A91535] bg-[#A91535] text-white' : 'border-[var(--color-muted-steel)]'
+                          isSelected ? 'border-accent bg-accent text-on-accent' : 'border-muted'
                         )}
                       >
                         {isSelected && <Circle className="w-2 h-2 fill-current shrink-0" />}
                       </div>
-                      <div className="flex-1 min-w-0 break-words text-sm text-[var(--color-soft-white)] font-medium">
+                      <div className="flex-1 min-w-0 break-words text-sm text-ink font-medium">
                         <MarkdownView content={option.label || option.text || ''} inline />
                       </div>
                     </button>
@@ -497,7 +500,7 @@ export const ParticipantPlayPage: React.FC = () => {
 
             {currentBlock.type === 'checkbox' && (
               <div className="space-y-2.5">
-                <span className="block text-[11px] font-mono text-[var(--color-muted-steel)] mb-1">
+                <span className="block text-[11px] font-mono text-muted mb-1">
                   Select all that apply:
                 </span>
                 {currentBlock.options?.map((option) => {
@@ -510,20 +513,20 @@ export const ParticipantPlayPage: React.FC = () => {
                       className={cn(
                         'w-full flex items-start gap-3.5 p-4 rounded-lg border text-left transition-all cursor-pointer min-h-[52px]',
                         isSelected
-                          ? 'border-[#A91535] bg-[#7A1025]/20 ring-1 ring-[#7A1025]'
-                          : 'border-[var(--color-border-subtle)] bg-[var(--color-panel)] hover:border-[var(--color-steel)]'
+                          ? 'border-accent bg-accent-deep/20 ring-1 ring-accent-deep'
+                          : 'border-line bg-surface hover:border-ink-soft'
                       )}
                     >
                       {/* Fixed checkbox with shrink-0 aspect-square */}
                       <div
                         className={cn(
                           'shrink-0 aspect-square w-5 h-5 min-w-[1.25rem] min-h-[1.25rem] mt-0.5 rounded flex items-center justify-center border transition-colors',
-                          isSelected ? 'border-[#A91535] bg-[#A91535] text-white' : 'border-[var(--color-muted-steel)]'
+                          isSelected ? 'border-accent bg-accent text-on-accent' : 'border-muted'
                         )}
                       >
                         {isSelected && <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />}
                       </div>
-                      <div className="flex-1 min-w-0 break-words text-sm text-[var(--color-soft-white)] font-medium">
+                      <div className="flex-1 min-w-0 break-words text-sm text-ink font-medium">
                         <MarkdownView content={option.label || option.text || ''} inline />
                       </div>
                     </button>
@@ -533,8 +536,8 @@ export const ParticipantPlayPage: React.FC = () => {
             )}
 
             {currentBlock.type === 'scale' && (
-              <div className="p-5 sm:p-6 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] space-y-6">
-                <div className="flex items-center justify-between text-xs font-mono text-[var(--color-muted-steel)]">
+              <div className="p-5 sm:p-6 rounded-lg border border-line bg-surface space-y-6">
+                <div className="flex items-center justify-between text-xs font-mono text-muted">
                   <span>{currentBlock.scaleMinLabel || 'Minimum'}</span>
                   <span>{currentBlock.scaleMaxLabel || 'Maximum'}</span>
                 </div>
@@ -552,8 +555,8 @@ export const ParticipantPlayPage: React.FC = () => {
                         className={cn(
                           'flex-1 py-3.5 sm:py-4 rounded-lg font-mono text-base font-bold transition-all border cursor-pointer min-h-[48px]',
                           isSelected
-                            ? 'bg-[#A91535] border-[#C74B63] text-white scale-105 shadow-md shadow-[#7A1025]/40'
-                            : 'bg-[var(--color-charcoal)] border-[var(--color-border-subtle)] text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] hover:border-[var(--color-steel)]'
+                            ? 'bg-accent border-accent-text text-on-accent scale-105 shadow-md shadow-accent-deep/40'
+                            : 'bg-canvas border-line text-muted hover:text-ink hover:border-ink-soft'
                         )}
                       >
                         {val}
@@ -565,25 +568,25 @@ export const ParticipantPlayPage: React.FC = () => {
             )}
 
             {currentBlock.type === 'text' && (
-              <div className="p-5 sm:p-6 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] space-y-3">
+              <div className="p-5 sm:p-6 rounded-lg border border-line bg-surface space-y-3">
                 <textarea
                   rows={4}
                   value={typeof selectedAnswer === 'string' ? selectedAnswer : ''}
                   onChange={(e) => setSelectedAnswer(e.target.value)}
                   placeholder={currentBlock.placeholder || 'Type your response here...'}
-                  className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded-lg p-3 text-sm text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-2 focus:ring-[#A91535]"
+                  className="w-full bg-canvas border border-line rounded-lg p-3 text-sm text-ink placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
             )}
           </div>
 
-          <div className="max-w-3xl mx-auto flex items-center justify-between pt-4 border-t border-[var(--color-border-subtle)]/60">
+          <div className="max-w-3xl mx-auto flex items-center justify-between pt-4 border-t border-line/60">
             <div>
               {assessment.settings.allowBackNavigation && currentQIndex > 0 ? (
                 <button
                   type="button"
                   onClick={handlePrevious}
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded border border-[var(--color-border-subtle)] bg-[var(--color-panel)] text-xs font-mono text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] transition-colors cursor-pointer min-h-[44px]"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded border border-line bg-surface text-xs font-mono text-muted hover:text-ink transition-colors cursor-pointer min-h-[44px]"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>Previous</span>
@@ -598,8 +601,8 @@ export const ParticipantPlayPage: React.FC = () => {
               onClick={handleNext}
               disabled={!canProceed}
               className={cn(
-                'inline-flex items-center gap-2 rounded bg-[#A91535] px-6 py-2.5 font-mono text-sm font-bold text-white shadow-lg transition-all cursor-pointer min-h-[44px]',
-                isPlayful && 'hover:bg-[#C74B63] shadow-[#7A1025]/40 active:scale-95',
+                'inline-flex items-center gap-2 rounded bg-accent px-6 py-2.5 font-mono text-sm font-bold text-on-accent shadow-lg transition-all cursor-pointer min-h-[44px]',
+                isPlayful && 'hover:bg-accent-hover shadow-accent-deep/40 active:scale-95',
                 !canProceed && 'opacity-50 cursor-not-allowed'
               )}
             >

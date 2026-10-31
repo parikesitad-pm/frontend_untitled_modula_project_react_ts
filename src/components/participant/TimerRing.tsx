@@ -27,9 +27,9 @@ export const TimerRing: React.FC<TimerRingProps> = ({
   const isUrgent = safeSecondsLeft <= 10 && safeSecondsLeft > 0;
   const isExpired = safeSecondsLeft <= 0;
 
-  let strokeColor = isPlayful ? '#5AA9FF' : 'var(--color-burgundy-bright)';
-  if (isUrgent) strokeColor = '#F0646A';
-  if (isExpired) strokeColor = '#7A1025';
+  let strokeColor = isPlayful ? 'var(--info)' : 'var(--accent)';
+  if (isUrgent) strokeColor = 'var(--live)';
+  if (isExpired) strokeColor = 'var(--muted)';
 
   const timeDisplay = totalSeconds > 60
     ? `${Math.floor(safeSecondsLeft / 60)}:${(safeSecondsLeft % 60).toString().padStart(2, '0')}`
@@ -50,7 +50,7 @@ export const TimerRing: React.FC<TimerRingProps> = ({
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="var(--color-border-subtle)"
+          stroke="var(--line)"
           strokeWidth={strokeWidth}
           fill="transparent"
         />
@@ -71,9 +71,9 @@ export const TimerRing: React.FC<TimerRingProps> = ({
       {/* Time Display Number */}
       <span
         className={cn(
-          'absolute font-bold tabular-nums text-[var(--color-soft-white)]',
+          'absolute font-bold tabular-nums text-ink',
           totalSeconds > 60 ? 'text-xs sm:text-sm' : 'text-sm sm:text-base',
-          isUrgent && 'text-[#F0646A]'
+          isUrgent && 'text-live'
         )}
       >
         {timeDisplay}

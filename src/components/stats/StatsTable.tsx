@@ -52,25 +52,25 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-2 flex-1 max-w-md">
           <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-muted-steel)]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search participant name or email..."
-              className="w-full bg-[var(--color-panel)] border border-[var(--color-border-subtle)] rounded-lg pl-9 pr-3 py-1.5 text-xs text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-1 focus:ring-[#A91535]"
+              className="w-full bg-surface border border-line rounded-lg pl-9 pr-3 py-1.5 text-xs text-ink placeholder-muted focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {/* Status Filter */}
-          <div className="flex items-center bg-[var(--color-panel)] border border-[var(--color-border-subtle)] rounded-lg p-0.5 text-xs font-mono">
+          <div className="flex items-center bg-surface border border-line rounded-lg p-0.5 text-xs font-mono">
             <button
               onClick={() => setStatusFilter('all')}
               className={cn(
                 'px-2.5 py-1 rounded transition-colors cursor-pointer',
-                statusFilter === 'all' ? 'bg-[var(--color-panel-elevated)] text-[var(--color-soft-white)] font-semibold' : 'text-[var(--color-muted-steel)] hover:text-[var(--color-steel)]'
+                statusFilter === 'all' ? 'bg-raised text-ink font-semibold' : 'text-muted hover:text-ink-soft'
               )}
             >
               All ({submissions.length})
@@ -79,7 +79,7 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
               onClick={() => setStatusFilter('completed')}
               className={cn(
                 'px-2.5 py-1 rounded transition-colors cursor-pointer',
-                statusFilter === 'completed' ? 'bg-[var(--color-panel-elevated)] text-[var(--color-soft-white)] font-semibold' : 'text-[var(--color-muted-steel)] hover:text-[var(--color-steel)]'
+                statusFilter === 'completed' ? 'bg-raised text-ink font-semibold' : 'text-muted hover:text-ink-soft'
               )}
             >
               Completed
@@ -88,7 +88,7 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
               onClick={() => setStatusFilter('in_progress')}
               className={cn(
                 'px-2.5 py-1 rounded transition-colors cursor-pointer',
-                statusFilter === 'in_progress' ? 'bg-[var(--color-panel-elevated)] text-[var(--color-soft-white)] font-semibold' : 'text-[var(--color-muted-steel)] hover:text-[var(--color-steel)]'
+                statusFilter === 'in_progress' ? 'bg-raised text-ink font-semibold' : 'text-muted hover:text-ink-soft'
               )}
             >
               In Progress
@@ -98,7 +98,7 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
           {/* Export CSV */}
           <button
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded bg-[var(--color-panel-elevated)] text-[var(--color-steel)] hover:text-[var(--color-soft-white)] border border-[var(--color-border-subtle)] hover:border-[var(--color-steel)] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded bg-raised text-ink-soft hover:text-ink border border-line hover:border-ink-soft transition-colors cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Export CSV</span>
@@ -107,9 +107,9 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
       </div>
 
       {/* Table Container */}
-      <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] overflow-x-auto shadow-sm">
+      <div className="rounded-lg border border-line bg-surface overflow-x-auto shadow-sm">
         <table className="w-full text-left text-xs font-mono">
-          <thead className="bg-[var(--color-charcoal)] border-b border-[var(--color-border-subtle)] text-[var(--color-muted-steel)] uppercase text-[10px] tracking-wider">
+          <thead className="bg-canvas border-b border-line text-muted uppercase text-[10px] tracking-wider">
             <tr>
               <th className="px-4 py-3 font-semibold">Participant</th>
               <th className="px-4 py-3 font-semibold">Status</th>
@@ -120,21 +120,21 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
               <th className="px-4 py-3 font-semibold text-right">Completed At</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[var(--color-border-subtle)]/60 text-[var(--color-soft-white)]">
+          <tbody className="divide-y divide-line/60 text-ink">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-[var(--color-muted-steel)]">
+                <td colSpan={7} className="px-4 py-8 text-center text-muted">
                   No participant submissions match your filter.
                 </td>
               </tr>
             ) : (
               filtered.map((sub) => {
                 return (
-                  <tr key={sub.id} className="hover:bg-[var(--color-panel-elevated)]/60 transition-colors">
+                  <tr key={sub.id} className="hover:bg-raised/60 transition-colors">
                     {/* Participant Details */}
                     <td className="px-4 py-3 font-sans">
-                      <div className="font-semibold text-sm text-[var(--color-soft-white)]">{sub.participantName}</div>
-                      {sub.email && <div className="text-[11px] font-mono text-[var(--color-muted-steel)]">{sub.email}</div>}
+                      <div className="font-semibold text-sm text-ink">{sub.participantName}</div>
+                      {sub.email && <div className="text-[11px] font-mono text-muted">{sub.email}</div>}
                     </td>
 
                     {/* Status */}
@@ -144,11 +144,11 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
                           <CheckCircle2 className="w-3 h-3" /> Completed
                         </span>
                       ) : sub.status === 'in_progress' ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-[#5AA9FF] bg-[#5AA9FF]/10 px-2 py-0.5 rounded border border-[#5AA9FF]/30">
+                        <span className="inline-flex items-center gap-1 text-[11px] text-info bg-info/10 px-2 py-0.5 rounded border border-info/30">
                           <Clock className="w-3 h-3" /> In Progress
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-[var(--color-muted-steel)] bg-[var(--color-panel-elevated)] px-2 py-0.5 rounded border border-[var(--color-border-subtle)]">
+                        <span className="inline-flex items-center gap-1 text-[11px] text-muted bg-raised px-2 py-0.5 rounded border border-line">
                           <AlertCircle className="w-3 h-3" /> Abandoned
                         </span>
                       )}
@@ -157,7 +157,7 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
                     {/* Score */}
                     <td className="px-4 py-3 text-right tabular-nums">
                       <span className="font-semibold">{sub.score}</span>
-                      <span className="text-[var(--color-muted-steel)]">/{sub.maxScore}</span>
+                      <span className="text-muted">/{sub.maxScore}</span>
                     </td>
 
                     {/* Percentage */}
@@ -167,8 +167,8 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
                           sub.percentage >= 80
                             ? 'text-emerald-600 dark:text-emerald-400'
                             : sub.percentage >= 60
-                            ? 'text-[#F4C04E]'
-                            : 'text-[#C74B63]'
+                            ? 'text-accent-text'
+                            : 'text-accent-text'
                         )}
                       >
                         {sub.percentage}%
@@ -176,7 +176,7 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
                     </td>
 
                     {/* Duration */}
-                    <td className="px-4 py-3 text-right text-[var(--color-muted-steel)] tabular-nums">
+                    <td className="px-4 py-3 text-right text-muted tabular-nums">
                       {Math.floor(sub.totalTimeSeconds / 60)}m {sub.totalTimeSeconds % 60}s
                     </td>
 
@@ -184,17 +184,17 @@ export const StatsTable: React.FC<StatsTableProps> = ({ submissions, assessmentT
                     <td className="px-4 py-3 text-center">
                       {sub.pretestScore !== undefined && sub.posttestScore !== undefined ? (
                         <span className="inline-flex items-center gap-1 text-[11px]">
-                          <span className="text-[var(--color-muted-steel)]">{sub.pretestScore}%</span>
-                          <span className="text-[var(--color-steel)]">→</span>
+                          <span className="text-muted">{sub.pretestScore}%</span>
+                          <span className="text-ink-soft">→</span>
                           <span className="text-emerald-600 dark:text-emerald-400 font-bold">+{sub.posttestScore - sub.pretestScore}%</span>
                         </span>
                       ) : (
-                        <span className="text-[var(--color-muted-steel)] text-[11px]">—</span>
+                        <span className="text-muted text-[11px]">—</span>
                       )}
                     </td>
 
                     {/* Timestamp */}
-                    <td className="px-4 py-3 text-right text-[var(--color-muted-steel)] text-[11px]">
+                    <td className="px-4 py-3 text-right text-muted text-[11px]">
                       {sub.completedAt ? new Date(sub.completedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—'}
                     </td>
                   </tr>

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { usePageReveal } from '@/hooks/usePageReveal';
 import { useParams, Link } from 'react-router-dom';
 import { useAssessment } from '@/context/useAssessment';
 import { BrandLogo } from '@/components/brand/BrandLogo';
@@ -18,13 +19,15 @@ export const ParticipantResultPage: React.FC = () => {
   const { getAssessmentBySlug } = useAssessment();
 
   const assessment = getAssessmentBySlug(slug || '');
+  const revealRef = useRef<HTMLElement>(null);
+  usePageReveal(revealRef, assessment?.presentationMode === 'playful' ? 'playful' : 'formal');
 
   if (!assessment) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--color-charcoal)] text-[var(--color-soft-white)] p-4 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-canvas text-ink p-4 text-center">
         <BrandLogo size="md" />
         <h2 className="text-xl font-bold mt-4">Assessment not found</h2>
-        <Link to="/dashboard" className="mt-4 px-4 py-2 rounded bg-[#A91535] text-xs font-mono text-white">
+        <Link to="/dashboard" className="mt-4 px-4 py-2 rounded bg-accent text-xs font-mono text-on-accent">
           Return to Dashboard
         </Link>
       </div>
@@ -57,14 +60,14 @@ export const ParticipantResultPage: React.FC = () => {
   const isPlayful = assessment.presentationMode === 'playful';
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[var(--color-charcoal)] text-[var(--color-soft-white)]">
-      <header className="w-full border-b border-[var(--color-border-subtle)] bg-[var(--color-charcoal)]/90 py-3.5 px-4 sm:px-6">
+    <div className="min-h-screen flex flex-col justify-between bg-canvas text-ink">
+      <header className="w-full border-b border-line bg-canvas/90 py-3.5 px-4 sm:px-6">
         <div className="mx-auto max-w-4xl flex items-center justify-between">
           <BrandLogo size="sm" linkTo="/" />
           {assessment.leaderboardEnabled && (
             <Link
               to={`/leaderboard/${assessment.slug}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono rounded bg-[var(--color-panel)] text-[#F4C04E] hover:bg-[var(--color-panel-elevated)] border border-[#D49D26]/30 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono rounded bg-surface text-accent-text hover:bg-raised border border-accent-deep/30 transition-colors"
             >
               <Trophy className="w-3.5 h-3.5" />
               <span>Leaderboard</span>
@@ -73,12 +76,12 @@ export const ParticipantResultPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-1 flex items-center justify-center p-4 sm:p-6 my-8">
+      <main ref={revealRef} className="flex-1 flex items-center justify-center p-4 sm:p-6 my-8">
         <div className="w-full max-w-lg space-y-6">
           <div
             className={cn(
-              'rounded-xl border bg-[var(--color-panel)] p-6 sm:p-8 shadow-2xl text-center space-y-6 relative overflow-hidden',
-              isPlayful ? 'border-[#7A1025] shadow-[#4A0714]/50' : 'border-[var(--color-border-subtle)]'
+              'rounded-xl border bg-surface p-6 sm:p-8 shadow-2xl text-center space-y-6 relative overflow-hidden',
+              isPlayful ? 'border-accent-deep shadow-accent-tint/50' : 'border-line'
             )}
           >
             {isPassed && (
@@ -88,32 +91,32 @@ export const ParticipantResultPage: React.FC = () => {
             )}
 
             <div className="space-y-1">
-              <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-muted-steel)]">
+              <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
                 Assessment Completed
               </span>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--color-soft-white)]">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink">
                 Great job, {session.participantName}!
               </h1>
-              <div className="text-xs text-[var(--color-muted-steel)]">
+              <div className="text-xs text-muted">
                 <MarkdownView content={`Responses for **${assessment.title}** registered.`} inline />
               </div>
             </div>
 
             {assessment.settings.showScore && (
-              <div className="p-6 rounded-lg bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] space-y-3">
-                <div className="text-4xl sm:text-5xl font-extrabold font-mono text-[var(--color-soft-white)] tracking-tight">
+              <div className="p-6 rounded-lg bg-canvas border border-line space-y-3">
+                <div className="text-4xl sm:text-5xl font-extrabold font-mono text-ink tracking-tight">
                   <span
                     className={cn(
-                      isPassed ? 'text-emerald-400' : 'text-[#C74B63]'
+                      isPassed ? 'text-emerald-400' : 'text-accent-text'
                     )}
                   >
                     {percentage}%
                   </span>
                 </div>
 
-                <div className="flex items-center justify-center gap-4 text-xs font-mono text-[var(--color-muted-steel)] pt-2 border-t border-[var(--color-border-subtle)]/60">
+                <div className="flex items-center justify-center gap-4 text-xs font-mono text-muted pt-2 border-t border-line/60">
                   <div className="flex items-center gap-1">
-                    <Award className="w-3.5 h-3.5 text-[#F4C04E]" />
+                    <Award className="w-3.5 h-3.5 text-accent-text" />
                     <span>{session.score} / {totalPossiblePoints} pts</span>
                   </div>
                   <span>·</span>
@@ -130,7 +133,7 @@ export const ParticipantResultPage: React.FC = () => {
               {assessment.leaderboardEnabled && (
                 <Link
                   to={`/leaderboard/${assessment.slug}`}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded bg-[#F4C04E] hover:bg-[#D49D26] px-5 py-2.5 font-mono text-xs font-bold text-stone-900 shadow transition-colors cursor-pointer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded bg-accent hover:bg-accent-deep px-5 py-2.5 font-mono text-xs font-bold text-stone-900 shadow transition-colors cursor-pointer"
                 >
                   <Trophy className="w-4 h-4 fill-stone-900" />
                   <span>View Full Leaderboard</span>
@@ -139,7 +142,7 @@ export const ParticipantResultPage: React.FC = () => {
 
               <Link
                 to={`/${assessment.slug}/start`}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded border border-[var(--color-border-subtle)] bg-[var(--color-panel-elevated)] hover:bg-[var(--color-border-subtle)] px-5 py-2.5 font-mono text-xs text-[var(--color-steel)] hover:text-[var(--color-soft-white)] transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded border border-line bg-raised hover:bg-line px-5 py-2.5 font-mono text-xs text-ink-soft hover:text-ink transition-colors"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Play Again</span>

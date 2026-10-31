@@ -17,7 +17,7 @@ export const AssessmentNavTabs: React.FC<AssessmentNavTabsProps> = ({ assessment
   ];
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-[var(--color-border-subtle)] gap-2 pb-0">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-line gap-2 pb-0">
       <nav className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-0">
         {tabs.map((tab) => {
           const Icon = tab.icon;
@@ -30,8 +30,8 @@ export const AssessmentNavTabs: React.FC<AssessmentNavTabsProps> = ({ assessment
                 cn(
                   'flex items-center gap-2 px-3 py-2.5 text-xs font-mono font-medium border-b-2 transition-all whitespace-nowrap',
                   isActive
-                    ? 'border-[#A91535] text-[var(--color-soft-white)] bg-[var(--color-panel)]/50'
-                    : 'border-transparent text-[var(--color-muted-steel)] hover:text-[var(--color-steel)] hover:border-[var(--color-border-subtle)]'
+                    ? 'border-accent text-ink bg-surface/50'
+                    : 'border-transparent text-muted hover:text-ink-soft hover:border-line'
                 )
               }
             >
@@ -46,7 +46,7 @@ export const AssessmentNavTabs: React.FC<AssessmentNavTabsProps> = ({ assessment
         {assessment.leaderboardEnabled && (
           <NavLink
             to={`/leaderboard/${assessment.slug}`}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded text-[#F4C04E] hover:bg-[var(--color-panel-elevated)] border border-[#D49D26]/30 transition-colors"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded text-accent-text hover:bg-raised border border-accent-deep/30 transition-colors"
           >
             <Trophy className="w-3 h-3" />
             <span>Leaderboard</span>
@@ -54,7 +54,7 @@ export const AssessmentNavTabs: React.FC<AssessmentNavTabsProps> = ({ assessment
         )}
         <NavLink
           to={`/dashboard/${assessment.id}/live`}
-          className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-semibold rounded bg-[#A91535] text-white hover:bg-[#C74B63] transition-colors shadow-sm"
+          className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-semibold rounded bg-accent text-on-accent hover:bg-accent-hover transition-colors shadow-sm"
         >
           <Radio className="w-3 h-3" />
           <span>Open Live Play (Host Lobby)</span>

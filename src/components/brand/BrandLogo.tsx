@@ -40,17 +40,17 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         alt="MODULA Owl Crest"
         className={cn(
           iconSizes[size],
-          'object-contain transition-transform group-hover:scale-105 duration-200 drop-shadow-[0_2px_8px_rgba(122,16,37,0.3)]'
+          'object-contain transition-transform group-hover:scale-105 duration-200'
         )}
         loading="eager"
       />
       {!iconOnly && (
         <div className="flex flex-col text-left leading-tight">
-          <span className={cn('font-bold tracking-tight text-[var(--color-soft-white)] flex items-center gap-1.5', titleSizes[size])}>
-            Untitled
-            <span className="w-1.5 h-1.5 rounded-full bg-[#A91535] inline-block"></span>
+          <span className={cn('font-bold tracking-tight text-ink flex items-center gap-1.5', titleSizes[size])}>
+            QUEICE
+            <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
           </span>
-          <span className={cn('font-mono uppercase tracking-widest text-[var(--color-muted-steel)] group-hover:text-[var(--color-steel)] transition-colors', subSizes[size])}>
+          <span className={cn('font-mono uppercase tracking-widest text-muted group-hover:text-ink-soft transition-colors', subSizes[size])}>
             a MODULA Project
           </span>
         </div>
@@ -60,7 +60,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   if (linkTo) {
     return (
-      <Link to={linkTo} className="inline-flex items-center focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#A91535] rounded">
+      <Link to={linkTo} className="inline-flex items-center focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent rounded">
         {content}
       </Link>
     );

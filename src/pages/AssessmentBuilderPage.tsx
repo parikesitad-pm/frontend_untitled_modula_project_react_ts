@@ -32,7 +32,7 @@ export const AssessmentBuilderPage: React.FC = () => {
       <AppShell>
         <div className="text-center py-20">
           <h2 className="text-xl font-bold">Assessment not found</h2>
-          <Link to="/dashboard" className="text-[#C74B63] hover:underline mt-2 inline-block">
+          <Link to="/dashboard" className="text-accent-text hover:underline mt-2 inline-block">
             Return to Dashboard
           </Link>
         </div>
@@ -164,7 +164,7 @@ export const AssessmentBuilderPage: React.FC = () => {
           }
           actions={
             <div className="flex items-center gap-2">
-              <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] text-[var(--color-muted-steel)]">
+              <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] text-muted">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 <span>{saveStatus}</span>
               </span>
@@ -172,7 +172,7 @@ export const AssessmentBuilderPage: React.FC = () => {
                 href={`/${assessment.slug}/start`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#A91535] text-xs font-mono font-semibold text-white hover:bg-[#C74B63] transition-colors shadow-sm"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-accent text-xs font-mono font-semibold text-on-accent hover:bg-accent-hover transition-colors shadow-sm"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
                 <span>Test Participant Mode</span>
@@ -193,9 +193,9 @@ export const AssessmentBuilderPage: React.FC = () => {
             }}
           />
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-5 border-t-4 border-t-[#A91535] space-y-3 shadow-sm">
+          <div className="rounded-lg border border-line bg-surface p-5 border-t-4 border-t-accent space-y-3 shadow-sm">
             <div>
-              <label className="block text-[10px] font-mono uppercase text-[var(--color-muted-steel)] mb-1">
+              <label className="block text-[10px] font-mono uppercase text-muted mb-1">
                 Assessment Title
               </label>
               <input
@@ -205,13 +205,13 @@ export const AssessmentBuilderPage: React.FC = () => {
                   updateAssessment(assessment.id, { title: e.target.value });
                   triggerSaveNotify();
                 }}
-                className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-3 py-2 text-base font-bold text-[var(--color-soft-white)] focus:outline-none focus:ring-1 focus:ring-[#A91535]"
+                className="w-full bg-canvas border border-line rounded px-3 py-2 text-base font-bold text-ink focus:outline-none focus:ring-1 focus:ring-accent"
                 placeholder="Enter title..."
               />
             </div>
 
             <div>
-              <label className="block text-[10px] font-mono uppercase text-[var(--color-muted-steel)] mb-1">
+              <label className="block text-[10px] font-mono uppercase text-muted mb-1">
                 Assessment Instructions / Description
               </label>
               <textarea
@@ -221,7 +221,7 @@ export const AssessmentBuilderPage: React.FC = () => {
                   updateAssessment(assessment.id, { description: e.target.value });
                   triggerSaveNotify();
                 }}
-                className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-3 py-1.5 text-xs text-[var(--color-muted-steel)] focus:outline-none focus:ring-1 focus:ring-[#A91535]"
+                className="w-full bg-canvas border border-line rounded px-3 py-1.5 text-xs text-muted focus:outline-none focus:ring-1 focus:ring-accent"
                 placeholder="Provide directions or overview for candidates..."
               />
             </div>

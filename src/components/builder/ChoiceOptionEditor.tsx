@@ -11,6 +11,8 @@ interface ChoiceOptionEditorProps {
 }
 
 const PLAY_COLORS: ('coral' | 'sky' | 'gold' | 'mint')[] = ['coral', 'sky', 'gold', 'mint'];
+// Display names follow the visible tile color; the stored values are a backend contract.
+const PLAY_COLOR_NAMES: Record<(typeof PLAY_COLORS)[number], string> = { coral: 'Red', sky: 'Blue', gold: 'Yellow', mint: 'Green' };
 
 export const ChoiceOptionEditor: React.FC<ChoiceOptionEditorProps> = ({
   options,
@@ -56,21 +58,21 @@ export const ChoiceOptionEditor: React.FC<ChoiceOptionEditorProps> = ({
   };
 
   const colorBadgeStyle = {
-    coral: 'bg-[#F0646A]/20 text-[#F0646A] border-[#F0646A]/40',
-    sky: 'bg-[#5AA9FF]/20 text-[#5AA9FF] border-[#5AA9FF]/40',
-    gold: 'bg-[#F4C04E]/20 text-[#F4C04E] border-[#F4C04E]/40',
-    mint: 'bg-[#46D19E]/20 text-[#46D19E] border-[#46D19E]/40',
+    coral: 'bg-play-1/20 text-ink border-play-1/40',
+    sky: 'bg-play-2/20 text-ink border-play-2/40',
+    gold: 'bg-play-3/20 text-ink border-play-3/40',
+    mint: 'bg-play-4/20 text-ink border-play-4/40',
   };
 
   return (
     <div className="space-y-2.5 pt-2">
-      <div className="flex items-center justify-between text-[11px] font-mono text-[var(--color-muted-steel)]">
+      <div className="flex items-center justify-between text-[11px] font-mono text-muted">
         <span>Answer Choices (Markdown & Code preserved)</span>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setShowPreview(!showPreview)}
-            className="inline-flex items-center gap-1 text-[10px] text-[var(--color-steel)] hover:text-[var(--color-soft-white)] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1 text-[10px] text-ink-soft hover:text-ink transition-colors cursor-pointer"
           >
             {showPreview ? <Edit2 className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
             <span>{showPreview ? 'Edit Raw' : 'Preview MD'}</span>
@@ -85,10 +87,10 @@ export const ChoiceOptionEditor: React.FC<ChoiceOptionEditorProps> = ({
           <div
             key={option.id}
             className={cn(
-              'flex items-start gap-2.5 p-2 rounded-lg border bg-[var(--color-charcoal)] transition-all',
+              'flex items-start gap-2.5 p-2 rounded-lg border bg-canvas transition-all',
               option.isCorrect
                 ? 'border-emerald-500/40 bg-emerald-950/10'
-                : 'border-[var(--color-border-subtle)]'
+                : 'border-line'
             )}
           >
             {/* Correctness Toggle: fixed dimension shrink-0 */}
@@ -97,7 +99,7 @@ export const ChoiceOptionEditor: React.FC<ChoiceOptionEditorProps> = ({
               onClick={() => handleToggleCorrect(option.id)}
               className={cn(
                 'shrink-0 aspect-square w-5 h-5 min-w-[1.25rem] min-h-[1.25rem] mt-0.5 rounded flex items-center justify-center transition-colors cursor-pointer',
-                option.isCorrect ? 'text-emerald-400 hover:text-emerald-300' : 'text-[var(--color-muted-steel)] hover:text-[var(--color-steel)]'
+                option.isCorrect ? 'text-emerald-400 hover:text-emerald-300' : 'text-muted hover:text-ink-soft'
               )}
               title={option.isCorrect ? 'Marked as Correct' : 'Mark as Correct'}
             >
@@ -113,10 +115,10 @@ export const ChoiceOptionEditor: React.FC<ChoiceOptionEditorProps> = ({
               <span
                 className={cn(
                   'px-1.5 py-0.5 rounded text-[10px] font-mono uppercase font-bold border shrink-0',
-                  option.color ? colorBadgeStyle[option.color] : 'bg-[var(--color-panel-elevated)] text-[var(--color-muted-steel)] border-[var(--color-border-subtle)]'
+                  option.color ? colorBadgeStyle[option.color] : 'bg-raised text-muted border-line'
                 )}
               >
-                {option.color || `Tile ${idx + 1}`}
+                {option.color ? PLAY_COLOR_NAMES[option.color] : `Tile ${idx + 1}`}
               </span>
               <div className="hidden sm:flex items-center gap-0.5 ml-1">
                 {PLAY_COLORS.map((c) => (
@@ -126,13 +128,15 @@ export const ChoiceOptionEditor: React.FC<ChoiceOptionEditorProps> = ({
                     onClick={() => handleColorChange(option.id, c)}
                     className={cn(
                       'w-2.5 h-2.5 rounded-full transition-transform shrink-0',
-                      c === 'coral' && 'bg-[#F0646A]',
-                      c === 'sky' && 'bg-[#5AA9FF]',
-                      c === 'gold' && 'bg-[#F4C04E]',
-                      c === 'mint' && 'bg-[#46D19E]',
-                      option.color === c ? 'scale-125 ring-1 ring-white' : 'opacity-40 hover:opacity-100'
+                      c === 'coral' && 'bg-play-1',
+                      c === 'sky' && 'bg-play-2',
+                      c === 'gold' && 'bg-play-3',
+                      c === 'mint' && 'bg-play-4',
+                      option.color === c ? 'scale-125 ring-1 ring-ink' : 'opacity-40 hover:opacity-100'
                     )}
-                    title={`Set color: ${c}`}
+                    title={`Set color: ${PLAY_COLOR_NAMES[c]}`}
+                    aria-label={`Set color: ${PLAY_COLOR_NAMES[c]}`}
+                    aria-pressed={option.color === c}
                   />
                 ))}
               </div>
@@ -141,7 +145,7 @@ export const ChoiceOptionEditor: React.FC<ChoiceOptionEditorProps> = ({
             {/* Text Input / Markdown Preview: Flexible wrapper with break-words */}
             <div className="flex-1 min-w-0">
               {showPreview ? (
-                <div className="px-2 py-1 text-xs text-[var(--color-soft-white)] bg-[var(--color-panel)] rounded border border-[var(--color-border-subtle)]">
+                <div className="px-2 py-1 text-xs text-ink bg-surface rounded border border-line">
                   <MarkdownView content={option.label || option.text || ''} inline />
                 </div>
               ) : (
@@ -149,7 +153,7 @@ export const ChoiceOptionEditor: React.FC<ChoiceOptionEditorProps> = ({
                   type="text"
                   value={option.label || option.text || ''}
                   onChange={(e) => handleUpdateText(option.id, e.target.value)}
-                  className="w-full bg-transparent px-2 py-1 text-xs text-[var(--color-soft-white)] focus:outline-none focus:ring-1 focus:ring-[#A91535] rounded border border-transparent hover:border-[var(--color-border-subtle)] focus:border-[#7A1025]"
+                  className="w-full bg-transparent px-2 py-1 text-xs text-ink focus:outline-none focus:ring-1 focus:ring-accent rounded border border-transparent hover:border-line focus:border-accent-deep"
                   placeholder={`Option ${idx + 1} text or \`code\`...`}
                 />
               )}
@@ -160,7 +164,7 @@ export const ChoiceOptionEditor: React.FC<ChoiceOptionEditorProps> = ({
               <button
                 type="button"
                 onClick={() => handleDeleteOption(option.id)}
-                className="shrink-0 p-1 text-[var(--color-muted-steel)] hover:text-red-400 transition-colors cursor-pointer mt-0.5"
+                className="shrink-0 p-1 text-muted hover:text-red-400 transition-colors cursor-pointer mt-0.5"
                 title="Remove choice"
               >
                 <Trash2 className="w-3.5 h-3.5" />
@@ -173,7 +177,7 @@ export const ChoiceOptionEditor: React.FC<ChoiceOptionEditorProps> = ({
       <button
         type="button"
         onClick={handleAddOption}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-[var(--color-steel)] hover:text-[var(--color-soft-white)] bg-[var(--color-panel-elevated)] hover:bg-[var(--color-border-subtle)] border border-[var(--color-border-subtle)] rounded transition-colors cursor-pointer"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-ink-soft hover:text-ink bg-raised hover:bg-line border border-line rounded transition-colors cursor-pointer"
       >
         <Plus className="w-3 h-3" />
         <span>Add Choice Option</span>

@@ -20,7 +20,7 @@ export const AssessmentStatsPage: React.FC = () => {
       <AppShell>
         <div className="text-center py-20">
           <h2 className="text-xl font-bold">Assessment not found</h2>
-          <Link to="/dashboard" className="text-[#C74B63] hover:underline mt-2 inline-block">
+          <Link to="/dashboard" className="text-accent-text hover:underline mt-2 inline-block">
             Return to Dashboard
           </Link>
         </div>
@@ -67,7 +67,7 @@ export const AssessmentStatsPage: React.FC = () => {
           actions={
             <Link
               to={`/leaderboard/${assessment.slug}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#272A2D] hover:bg-[#34383D] border border-[#34383D] text-xs font-mono text-[#F4C04E] transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-raised hover:bg-line border border-line text-xs font-mono text-accent-text transition-colors"
             >
               <Trophy className="w-3.5 h-3.5" />
               <span>Open Public Leaderboard</span>
@@ -78,50 +78,50 @@ export const AssessmentStatsPage: React.FC = () => {
         <AssessmentNavTabs assessment={assessment} />
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[var(--color-muted-steel)] font-mono text-[11px] uppercase">
-              <Users className="w-4 h-4 text-[#5AA9FF]" />
+          <div className="rounded-lg border border-line bg-surface p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted font-mono text-[11px] uppercase">
+              <Users className="w-4 h-4 text-info" />
               <span>Submissions Logged</span>
             </div>
-            <div className="mt-2 text-2xl font-bold font-mono text-[var(--color-soft-white)]">
+            <div className="mt-2 text-2xl font-bold font-mono text-ink">
               {assessmentSubmissions.length}
             </div>
-            <div className="mt-1 text-[11px] text-[var(--color-muted-steel)]">
+            <div className="mt-1 text-[11px] text-muted">
               {completedSubs.length} completed · {inProgressSubs.length} active
             </div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[var(--color-muted-steel)] font-mono text-[11px] uppercase">
-              <BarChart3 className="w-4 h-4 text-[#46D19E]" />
+          <div className="rounded-lg border border-line bg-surface p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted font-mono text-[11px] uppercase">
+              <BarChart3 className="w-4 h-4 text-success" />
               <span>Pass Rate</span>
             </div>
-            <div className="mt-2 text-2xl font-bold font-mono text-[var(--color-soft-white)]">{passRate}%</div>
-            <div className="mt-1 text-[11px] text-[var(--color-muted-steel)]">
+            <div className="mt-2 text-2xl font-bold font-mono text-ink">{passRate}%</div>
+            <div className="mt-1 text-[11px] text-muted">
               {passedCount} / {completedSubs.length} met ≥{assessment.settings.passPercentage}%
             </div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[var(--color-muted-steel)] font-mono text-[11px] uppercase">
-              <Clock className="w-4 h-4 text-[#F4C04E]" />
+          <div className="rounded-lg border border-line bg-surface p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted font-mono text-[11px] uppercase">
+              <Clock className="w-4 h-4 text-accent-text" />
               <span>Avg Completion Time</span>
             </div>
-            <div className="mt-2 text-2xl font-bold font-mono text-[var(--color-soft-white)]">
+            <div className="mt-2 text-2xl font-bold font-mono text-ink">
               {Math.floor(avgTime / 60)}m {avgTime % 60}s
             </div>
-            <div className="mt-1 text-[11px] text-[var(--color-muted-steel)]">Per participant average</div>
+            <div className="mt-1 text-[11px] text-muted">Per participant average</div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[var(--color-muted-steel)] font-mono text-[11px] uppercase">
-              <TrendingUp className="w-4 h-4 text-[#C74B63]" />
+          <div className="rounded-lg border border-line bg-surface p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted font-mono text-[11px] uppercase">
+              <TrendingUp className="w-4 h-4 text-accent-text" />
               <span>Pre → Post Delta</span>
             </div>
-            <div className="mt-2 text-2xl font-bold font-mono text-[var(--color-soft-white)]">
+            <div className="mt-2 text-2xl font-bold font-mono text-ink">
               {avgDelta !== null ? `+${avgDelta}%` : 'N/A'}
             </div>
-            <div className="mt-1 text-[11px] text-[var(--color-muted-steel)]">
+            <div className="mt-1 text-[11px] text-muted">
               {prePostPairs.length > 0 ? `${prePostPairs.length} paired tests` : 'Standard single assessment'}
             </div>
           </div>
@@ -129,10 +129,10 @@ export const AssessmentStatsPage: React.FC = () => {
 
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold font-mono text-[var(--color-soft-white)] uppercase tracking-wider">
+            <h3 className="text-sm font-bold font-mono text-ink uppercase tracking-wider">
               Participant Records Database
             </h3>
-            <span className="text-xs font-mono text-[var(--color-muted-steel)]">
+            <span className="text-xs font-mono text-muted">
               {assessmentSubmissions.length} records available
             </span>
           </div>

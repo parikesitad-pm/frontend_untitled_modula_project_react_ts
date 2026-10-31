@@ -12,10 +12,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[var(--color-charcoal)] text-[var(--color-soft-white)] font-mono text-xs">
+      <div className="min-h-screen flex items-center justify-center bg-canvas text-ink font-mono text-xs">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-6 h-6 border-2 border-[#A91535] border-t-transparent rounded-full animate-spin" />
-          <span className="text-[var(--color-muted-steel)]">Authenticating session...</span>
+          <div className="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+          <span className="text-muted">Authenticating session...</span>
         </div>
       </div>
     );

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { usePageReveal } from '@/hooks/usePageReveal';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '@/context/useAuth';
 import { BrandLogo } from '@/components/brand/BrandLogo';
@@ -7,6 +8,8 @@ import { DEV_DEFAULT_OPERATORS } from '@/domain/auth-mock';
 import { ShieldCheck, AlertCircle, ArrowRight, Info, X } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
+  const revealRef = useRef<HTMLElement>(null);
+  usePageReveal(revealRef, 'formal');
   const navigate = useNavigate();
   const location = useLocation();
   const { user, status, login } = useAuth();
@@ -70,9 +73,9 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[var(--color-charcoal)] text-[var(--color-soft-white)]">
+    <div className="min-h-screen flex flex-col justify-between bg-canvas text-ink">
       {/* Top Bar with Theme Toggle */}
-      <header className="w-full py-4 px-6 flex items-center justify-between border-b border-[var(--color-border-subtle)]/40">
+      <header className="w-full py-4 px-6 flex items-center justify-between border-b border-line/40">
         <BrandLogo linkTo="/" size="sm" />
         <div className="flex items-center gap-3">
           <ThemeToggle />
@@ -80,9 +83,9 @@ export const LoginPage: React.FC = () => {
       </header>
 
       {/* Main Sign-In Card */}
-      <main className="flex-1 flex items-center justify-center p-4 sm:p-6 my-8">
+      <main ref={revealRef} className="flex-1 flex items-center justify-center p-4 sm:p-6 my-8">
         <div className="w-full max-w-md space-y-6">
-          <div className="rounded-xl border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-6 sm:p-8 shadow-2xl space-y-6">
+          <div className="rounded-xl border border-line bg-surface p-6 sm:p-8 shadow-2xl space-y-6">
             
             {/* Header / Crest Branding */}
             <div className="text-center space-y-3">
@@ -90,11 +93,11 @@ export const LoginPage: React.FC = () => {
                 <BrandLogo size="lg" linkTo="/" />
               </div>
               <div className="pt-2">
-                <h1 className="text-lg font-bold text-[var(--color-soft-white)] font-sans">
+                <h1 className="text-lg font-bold text-ink font-sans">
                   Sign in to your workspace
                 </h1>
-                <p className="text-xs text-[var(--color-muted-steel)] font-mono mt-1">
-                  Operator authentication for Untitled Assessment Engine
+                <p className="text-xs text-muted font-mono mt-1">
+                  Operator sign-in for QUEICE
                 </p>
               </div>
             </div>
@@ -115,7 +118,7 @@ export const LoginPage: React.FC = () => {
               <div>
                 <label
                   htmlFor="email-input"
-                  className="block text-xs font-mono font-medium text-[var(--color-steel)] mb-1.5"
+                  className="block text-xs font-mono font-medium text-ink-soft mb-1.5"
                 >
                   Email
                 </label>
@@ -127,7 +130,7 @@ export const LoginPage: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="operator@modula.dev"
-                  className="w-full rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] px-3.5 py-2.5 text-sm text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-2 focus:ring-[#A91535] focus:border-transparent transition-all font-mono"
+                  className="w-full rounded-lg border border-line bg-canvas px-3.5 py-2.5 text-sm text-ink placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all font-mono"
                 />
               </div>
 
@@ -135,14 +138,14 @@ export const LoginPage: React.FC = () => {
                 <div className="flex items-center justify-between mb-1.5">
                   <label
                     htmlFor="password-input"
-                    className="block text-xs font-mono font-medium text-[var(--color-steel)]"
+                    className="block text-xs font-mono font-medium text-ink-soft"
                   >
                     Password
                   </label>
                   <button
                     type="button"
                     onClick={() => setShowForgotModal(true)}
-                    className="text-[11px] font-mono text-[var(--color-muted-steel)] hover:text-[#C74B63] transition-colors cursor-pointer"
+                    className="text-[11px] font-mono text-muted hover:text-accent-text transition-colors cursor-pointer"
                   >
                     Forgot password?
                   </button>
@@ -155,14 +158,14 @@ export const LoginPage: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] px-3.5 py-2.5 text-sm text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-2 focus:ring-[#A91535] focus:border-transparent transition-all font-mono"
+                  className="w-full rounded-lg border border-line bg-canvas px-3.5 py-2.5 text-sm text-ink placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all font-mono"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#A91535] hover:bg-[#C74B63] disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2.5 font-mono text-sm font-bold text-white shadow-lg transition-all cursor-pointer min-h-[44px] active:scale-[0.99]"
+                className="w-full flex items-center justify-center gap-2 rounded-lg bg-accent hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2.5 font-mono text-sm font-bold text-on-accent shadow-lg transition-all cursor-pointer min-h-[44px] active:scale-[0.99]"
               >
                 {isSubmitting ? (
                   <>
@@ -179,13 +182,13 @@ export const LoginPage: React.FC = () => {
             </form>
 
             {/* Development Mock Notice & Quick Fill */}
-            <div className="pt-3 border-t border-[var(--color-border-subtle)] space-y-2.5">
-              <div className="flex items-center gap-1.5 text-[11px] font-mono text-[var(--color-muted-steel)]">
+            <div className="pt-3 border-t border-line space-y-2.5">
+              <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Development Mock Auth (Sprint 9.5)</span>
               </div>
-              <div className="text-[11px] font-mono text-[var(--color-muted-steel)] space-y-1 bg-[var(--color-charcoal)] p-2.5 rounded border border-[var(--color-border-subtle)]/50">
-                <div className="text-[10px] uppercase font-bold text-[var(--color-steel)] mb-1">
+              <div className="text-[11px] font-mono text-muted space-y-1 bg-canvas p-2.5 rounded border border-line/50">
+                <div className="text-[10px] uppercase font-bold text-ink-soft mb-1">
                   Quick-fill Dev Profiles:
                 </div>
                 {DEV_DEFAULT_OPERATORS.map((op) => (
@@ -193,12 +196,12 @@ export const LoginPage: React.FC = () => {
                     key={op.id}
                     type="button"
                     onClick={() => fillDevCredentials(op.email, op.passwordHash)}
-                    className="w-full text-left flex items-center justify-between py-1 px-1.5 rounded hover:bg-[var(--color-panel)] text-[11px] transition-colors cursor-pointer group"
+                    className="w-full text-left flex items-center justify-between py-1 px-1.5 rounded hover:bg-surface text-[11px] transition-colors cursor-pointer group"
                   >
-                    <span className="text-[var(--color-steel)] group-hover:text-[var(--color-soft-white)]">
+                    <span className="text-ink-soft group-hover:text-ink">
                       {op.displayName} ({op.role})
                     </span>
-                    <span className="text-[10px] text-[#C74B63] font-semibold">Use &rarr;</span>
+                    <span className="text-[10px] text-accent-text font-semibold">Use &rarr;</span>
                   </button>
                 ))}
               </div>
@@ -206,9 +209,9 @@ export const LoginPage: React.FC = () => {
 
           </div>
 
-          <div className="text-center text-xs font-mono text-[var(--color-muted-steel)]">
+          <div className="text-center text-xs font-mono text-muted">
             <span>Looking for participant assessments? </span>
-            <Link to="/" className="text-[#C74B63] hover:underline">
+            <Link to="/" className="text-accent-text hover:underline">
               Enter with assessment code
             </Link>
           </div>
@@ -222,29 +225,29 @@ export const LoginPage: React.FC = () => {
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs"
         >
-          <div className="w-full max-w-sm rounded-xl border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-6 shadow-2xl space-y-4">
+          <div className="w-full max-w-sm rounded-xl border border-line bg-surface p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 font-mono text-sm font-bold text-[var(--color-soft-white)]">
-                <Info className="w-4 h-4 text-[#C74B63]" />
+              <div className="flex items-center gap-2 font-mono text-sm font-bold text-ink">
+                <Info className="w-4 h-4 text-accent-text" />
                 <span>Password Recovery</span>
               </div>
               <button
                 type="button"
                 onClick={() => setShowForgotModal(false)}
-                className="p-1 text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] rounded transition-colors"
+                className="p-1 text-muted hover:text-ink rounded transition-colors"
                 aria-label="Close modal"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-xs text-[var(--color-muted-steel)] font-mono leading-relaxed">
+            <p className="text-xs text-muted font-mono leading-relaxed">
               Operator accounts and password resets are managed centrally by your MODULA administrator. Please contact your workspace administrator for credential updates.
             </p>
             <div className="pt-2">
               <button
                 type="button"
                 onClick={() => setShowForgotModal(false)}
-                className="w-full py-2 rounded bg-[var(--color-panel-elevated)] border border-[var(--color-border-subtle)] text-xs font-mono text-[var(--color-soft-white)] hover:bg-[var(--color-border-subtle)] transition-colors cursor-pointer"
+                className="w-full py-2 rounded bg-raised border border-line text-xs font-mono text-ink hover:bg-line transition-colors cursor-pointer"
               >
                 Got it
               </button>
@@ -254,8 +257,8 @@ export const LoginPage: React.FC = () => {
       )}
 
       {/* Minimal Footer */}
-      <footer className="w-full py-4 text-center font-mono text-[11px] text-[var(--color-muted-steel)] border-t border-[var(--color-border-subtle)]/40">
-        Untitled · a MODULA Project
+      <footer className="w-full py-4 text-center font-mono text-[11px] text-muted border-t border-line/40">
+        QUEICE · a MODULA Project
       </footer>
     </div>
   );

@@ -52,7 +52,7 @@ export const NewAssessmentPage: React.FC = () => {
     navigate(`/dashboard/${newAssessment.id}/builder`);
   };
 
-  const modes: { mode: AssessmentMode; label: string; desc: string; icon: React.ElementType }[] = [
+  const modes: { mode: AssessmentMode; label: string; desc: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { mode: 'quiz', label: 'Interactive Quiz', desc: 'Fast-paced, scored questions with optional leaderboard', icon: Sparkles },
     { mode: 'pretest', label: 'Technical Pretest', desc: 'Baseline evaluation before workshops or training', icon: Target },
     { mode: 'posttest', label: 'Posttest Exam', desc: 'Comprehensive mastery assessment with comparison analytics', icon: CheckCircle2 },
@@ -73,53 +73,53 @@ export const NewAssessmentPage: React.FC = () => {
         />
 
         <form onSubmit={handleCreate} className="space-y-6">
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-5 space-y-4">
-            <h3 className="text-sm font-bold font-mono text-[var(--color-soft-white)] uppercase tracking-wider">
+          <div className="rounded-lg border border-line bg-surface p-5 space-y-4">
+            <h3 className="text-sm font-bold font-mono text-ink uppercase tracking-wider">
               1. General Details
             </h3>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-mono text-[var(--color-muted-steel)]">Assessment Title *</label>
+              <label className="block text-xs font-mono text-muted">Assessment Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => handleTitleChange(e.target.value)}
                 placeholder="e.g. Distributed Systems & Consensus Pretest"
-                className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded-lg px-3.5 py-2 text-sm text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-1 focus:ring-[#A91535]"
+                className="w-full bg-canvas border border-line rounded-lg px-3.5 py-2 text-sm text-ink placeholder-muted focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-mono text-[var(--color-muted-steel)]">Description</label>
+              <label className="block text-xs font-mono text-muted">Description</label>
               <textarea
                 rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Brief summary of the goals, instructions, or topics covered..."
-                className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded-lg px-3.5 py-2 text-xs text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-1 focus:ring-[#A91535]"
+                className="w-full bg-canvas border border-line rounded-lg px-3.5 py-2 text-xs text-ink placeholder-muted focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-mono text-[var(--color-muted-steel)]">Custom URL Slug</label>
+              <label className="block text-xs font-mono text-muted">Custom URL Slug</label>
               <div className="flex items-center">
-                <span className="bg-[var(--color-charcoal)] border border-r-0 border-[var(--color-border-subtle)] px-3 py-2 text-xs font-mono text-[var(--color-muted-steel)] rounded-l-lg">
-                  untitled/
+                <span className="bg-canvas border border-r-0 border-line px-3 py-2 text-xs font-mono text-muted rounded-l-lg">
+                  {window.location.host}/
                 </span>
                 <input
                   type="text"
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
                   placeholder="systems-consensus-pretest"
-                  className="flex-1 bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded-r-lg px-3 py-2 text-xs font-mono text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-1 focus:ring-[#A91535]"
+                  className="flex-1 bg-canvas border border-line rounded-r-lg px-3 py-2 text-xs font-mono text-ink placeholder-muted focus:outline-none focus:ring-1 focus:ring-accent"
                 />
               </div>
             </div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-5 space-y-4">
-            <h3 className="text-sm font-bold font-mono text-[var(--color-soft-white)] uppercase tracking-wider">
+          <div className="rounded-lg border border-line bg-surface p-5 space-y-4">
+            <h3 className="text-sm font-bold font-mono text-ink uppercase tracking-wider">
               2. Select Assessment Mode
             </h3>
 
@@ -135,21 +135,21 @@ export const NewAssessmentPage: React.FC = () => {
                     className={cn(
                       'flex items-start gap-3 p-3.5 rounded-lg border text-left transition-all cursor-pointer',
                       isSelected
-                        ? 'border-[#A91535] bg-[#7A1025]/20 ring-1 ring-[#7A1025]'
-                        : 'border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] hover:border-[var(--color-steel)]'
+                        ? 'border-accent bg-accent-deep/20 ring-1 ring-accent-deep'
+                        : 'border-line bg-canvas hover:border-ink-soft'
                     )}
                   >
                     <div
                       className={cn(
                         'p-2 rounded',
-                        isSelected ? 'bg-[#A91535] text-white' : 'bg-[var(--color-panel-elevated)] text-[var(--color-muted-steel)]'
+                        isSelected ? 'bg-accent text-on-accent' : 'bg-raised text-muted'
                       )}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="font-semibold text-xs text-[var(--color-soft-white)]">{item.label}</div>
-                      <div className="text-[11px] text-[var(--color-muted-steel)] mt-0.5 leading-snug">{item.desc}</div>
+                      <div className="font-semibold text-xs text-ink">{item.label}</div>
+                      <div className="text-[11px] text-muted mt-0.5 leading-snug">{item.desc}</div>
                     </div>
                   </button>
                 );
@@ -158,59 +158,59 @@ export const NewAssessmentPage: React.FC = () => {
           </div>
 
           {/* Activity Timer & Leaderboard Options */}
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-5 space-y-4">
-            <h3 className="text-sm font-bold font-mono text-[var(--color-soft-white)] uppercase tracking-wider">
+          <div className="rounded-lg border border-line bg-surface p-5 space-y-4">
+            <h3 className="text-sm font-bold font-mono text-ink uppercase tracking-wider">
               3. Activity Timer & Leaderboard
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
-              <div className="p-3 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] space-y-2">
+              <div className="p-3 rounded-lg border border-line bg-canvas space-y-2">
                 <label className="flex items-center justify-between cursor-pointer">
                   <div>
-                    <span className="text-[var(--color-soft-white)] block font-sans font-medium">Activity Timer</span>
-                    <span className="text-[11px] text-[var(--color-muted-steel)]">Continuous countdown</span>
+                    <span className="text-ink block font-sans font-medium">Activity Timer</span>
+                    <span className="text-[11px] text-muted">Continuous countdown</span>
                   </div>
                   <input
                     type="checkbox"
                     checked={timeLimitEnabled}
                     onChange={(e) => setTimeLimitEnabled(e.target.checked)}
-                    className="accent-[#A91535] w-4 h-4 rounded cursor-pointer"
+                    className="accent-accent w-4 h-4 rounded cursor-pointer"
                   />
                 </label>
                 {timeLimitEnabled && (
-                  <div className="pt-2 border-t border-[var(--color-border-subtle)]/60">
-                    <label className="block text-[10px] text-[var(--color-muted-steel)] mb-1 uppercase">Duration (Seconds)</label>
+                  <div className="pt-2 border-t border-line/60">
+                    <label className="block text-[10px] text-muted mb-1 uppercase">Duration (Seconds)</label>
                     <input
                       type="number"
                       min="10"
                       step="10"
                       value={activityTimeLimitSeconds}
                       onChange={(e) => setActivityTimeLimitSeconds(parseInt(e.target.value) || 60)}
-                      className="w-full bg-[var(--color-panel)] border border-[var(--color-border-subtle)] rounded px-2.5 py-1 text-xs text-[var(--color-soft-white)] font-mono"
+                      className="w-full bg-surface border border-line rounded px-2.5 py-1 text-xs text-ink font-mono"
                     />
                   </div>
                 )}
               </div>
 
-              <div className="p-3 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] space-y-2">
+              <div className="p-3 rounded-lg border border-line bg-canvas space-y-2">
                 <label className="flex items-center justify-between cursor-pointer">
                   <div>
-                    <span className="text-[var(--color-soft-white)] block font-sans font-medium">Enable Leaderboard</span>
-                    <span className="text-[11px] text-[var(--color-muted-steel)]">Show podium & ranking</span>
+                    <span className="text-ink block font-sans font-medium">Enable Leaderboard</span>
+                    <span className="text-[11px] text-muted">Show podium & ranking</span>
                   </div>
                   <input
                     type="checkbox"
                     checked={leaderboardEnabled}
                     onChange={(e) => setLeaderboardEnabled(e.target.checked)}
-                    className="accent-[#A91535] w-4 h-4 rounded cursor-pointer"
+                    className="accent-accent w-4 h-4 rounded cursor-pointer"
                   />
                 </label>
               </div>
             </div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-5 space-y-4">
-            <h3 className="text-sm font-bold font-mono text-[var(--color-soft-white)] uppercase tracking-wider">
+          <div className="rounded-lg border border-line bg-surface p-5 space-y-4">
+            <h3 className="text-sm font-bold font-mono text-ink uppercase tracking-wider">
               4. Presentation Style
             </h3>
 
@@ -221,12 +221,12 @@ export const NewAssessmentPage: React.FC = () => {
                 className={cn(
                   'p-4 rounded-lg border text-left transition-all cursor-pointer',
                   presentationMode === 'formal'
-                    ? 'border-[#A91535] bg-[#7A1025]/20 ring-1 ring-[#7A1025]'
-                    : 'border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] hover:border-[var(--color-steel)]'
+                    ? 'border-accent bg-accent-deep/20 ring-1 ring-accent-deep'
+                    : 'border-line bg-canvas hover:border-ink-soft'
                 )}
               >
-                <div className="font-semibold text-xs text-[var(--color-soft-white)]">Formal & Clean</div>
-                <p className="text-[11px] text-[var(--color-muted-steel)] mt-1">
+                <div className="font-semibold text-xs text-ink">Formal & Clean</div>
+                <p className="text-[11px] text-muted mt-1">
                   Neutral panels, restrained burgundy accents, score hidden during answering.
                 </p>
               </button>
@@ -237,15 +237,15 @@ export const NewAssessmentPage: React.FC = () => {
                 className={cn(
                   'p-4 rounded-lg border text-left transition-all cursor-pointer',
                   presentationMode === 'playful'
-                    ? 'border-[#A91535] bg-[#7A1025]/20 ring-1 ring-[#7A1025]'
-                    : 'border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] hover:border-[var(--color-steel)]'
+                    ? 'border-accent bg-accent-deep/20 ring-1 ring-accent-deep'
+                    : 'border-line bg-canvas hover:border-ink-soft'
                 )}
               >
-                <div className="font-semibold text-xs text-[var(--color-soft-white)] flex items-center gap-1.5">
+                <div className="font-semibold text-xs text-ink flex items-center gap-1.5">
                   <span>Playful Arena</span>
-                  <Sparkles className="w-3 h-3 text-[#F4C04E]" />
+                  <Sparkles className="w-3 h-3 text-accent-text" />
                 </div>
-                <p className="text-[11px] text-[var(--color-muted-steel)] mt-1">
+                <p className="text-[11px] text-muted mt-1">
                   Coral/Sky/Gold/Mint tiles, live timer countdown ring, instant points.
                 </p>
               </button>
@@ -256,12 +256,12 @@ export const NewAssessmentPage: React.FC = () => {
                 className={cn(
                   'p-4 rounded-lg border text-left transition-all cursor-pointer',
                   presentationMode === 'custom'
-                    ? 'border-[#A91535] bg-[#7A1025]/20 ring-1 ring-[#7A1025]'
-                    : 'border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] hover:border-[var(--color-steel)]'
+                    ? 'border-accent bg-accent-deep/20 ring-1 ring-accent-deep'
+                    : 'border-line bg-canvas hover:border-ink-soft'
                 )}
               >
-                <div className="font-semibold text-xs text-[var(--color-soft-white)]">Custom Blend</div>
-                <p className="text-[11px] text-[var(--color-muted-steel)] mt-1">
+                <div className="font-semibold text-xs text-ink">Custom Blend</div>
+                <p className="text-[11px] text-muted mt-1">
                   Configure individual timer, leaderboard, and color presentation rules.
                 </p>
               </button>
@@ -272,14 +272,14 @@ export const NewAssessmentPage: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/dashboard')}
-              className="px-4 py-2 font-mono text-xs text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] transition-colors"
+              className="px-4 py-2 font-mono text-xs text-muted hover:text-ink transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!title.trim()}
-              className="inline-flex items-center gap-2 rounded bg-[#A91535] px-6 py-2.5 font-mono text-xs font-semibold text-white shadow-sm hover:bg-[#C74B63] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="inline-flex items-center gap-2 rounded bg-accent px-6 py-2.5 font-mono text-xs font-semibold text-on-accent shadow-sm hover:bg-accent-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <span>Initialize Builder</span>
               <ArrowRight className="w-3.5 h-3.5" />

@@ -8,7 +8,7 @@ interface BannerUploaderProps {
   className?: string;
 }
 
-// Preset banner options suitable for Untitled / MODULA aesthetic
+// Preset banner options suitable for the QUEICE / MODULA aesthetic
 const PRESET_BANNERS = [
   {
     name: 'Crimson Tech',
@@ -137,7 +137,7 @@ export const BannerUploader: React.FC<BannerUploaderProps> = ({
       />
 
       {bannerUrl ? (
-        <div className="relative group rounded-xl overflow-hidden border border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] aspect-[21/9] sm:aspect-[3/1] max-h-48 shadow-md">
+        <div className="relative group rounded-xl overflow-hidden border border-line bg-canvas aspect-[21/9] sm:aspect-[3/1] max-h-48 shadow-md">
           <img
             src={bannerUrl}
             alt="Assessment Banner Preview"
@@ -148,7 +148,7 @@ export const BannerUploader: React.FC<BannerUploaderProps> = ({
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[var(--color-panel-elevated)] border border-[var(--color-border-subtle)] hover:bg-[var(--color-charcoal)] text-xs font-mono font-medium text-[var(--color-soft-white)] transition-colors shadow cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-raised border border-line hover:bg-canvas text-xs font-mono font-medium text-ink transition-colors shadow cursor-pointer"
             >
               <RefreshCw className={cn('w-3.5 h-3.5', isUploading && 'animate-spin')} />
               <span>Replace Banner</span>
@@ -164,15 +164,15 @@ export const BannerUploader: React.FC<BannerUploaderProps> = ({
           </div>
         </div>
       ) : (
-        <div className="border border-dashed border-[var(--color-border-subtle)] rounded-xl p-5 bg-[var(--color-panel)]/40 hover:bg-[var(--color-panel)]/80 transition-colors text-center space-y-3">
+        <div className="border border-dashed border-line rounded-xl p-5 bg-surface/40 hover:bg-surface/80 transition-colors text-center space-y-3">
           <div className="flex flex-col items-center justify-center gap-1.5">
-            <div className="w-10 h-10 rounded-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] flex items-center justify-center text-[var(--color-muted-steel)]">
-              <ImageIcon className="w-5 h-5 text-[#A91535]" />
+            <div className="w-10 h-10 rounded-full bg-canvas border border-line flex items-center justify-center text-muted">
+              <ImageIcon className="w-5 h-5 text-accent" />
             </div>
-            <div className="font-mono text-xs font-semibold text-[var(--color-soft-white)]">
+            <div className="font-mono text-xs font-semibold text-ink">
               Assessment Banner / Header Image
             </div>
-            <div className="text-[11px] text-[var(--color-muted-steel)] max-w-sm">
+            <div className="text-[11px] text-muted max-w-sm">
               Add an optional wide header banner for your assessment builder & settings.
             </div>
           </div>
@@ -182,7 +182,7 @@ export const BannerUploader: React.FC<BannerUploaderProps> = ({
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#A91535] hover:bg-[#C74B63] text-xs font-mono font-semibold text-white transition-colors cursor-pointer shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-accent hover:bg-accent-hover text-xs font-mono font-semibold text-on-accent transition-colors cursor-pointer shadow-sm"
             >
               <Upload className="w-3.5 h-3.5" />
               <span>{isUploading ? 'Compressing...' : 'Upload Image'}</span>
@@ -190,7 +190,7 @@ export const BannerUploader: React.FC<BannerUploaderProps> = ({
             <button
               type="button"
               onClick={() => setShowUrlInput(!showUrlInput)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-[var(--color-border-subtle)] bg-[var(--color-panel-elevated)] hover:bg-[var(--color-border-subtle)] text-xs font-mono text-[var(--color-steel)] hover:text-[var(--color-soft-white)] transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-line bg-raised hover:bg-line text-xs font-mono text-ink-soft hover:text-ink transition-colors cursor-pointer"
             >
               <LinkIcon className="w-3.5 h-3.5" />
               <span>Image URL</span>
@@ -198,9 +198,9 @@ export const BannerUploader: React.FC<BannerUploaderProps> = ({
           </div>
 
           {/* Quick presets */}
-          <div className="pt-2 border-t border-[var(--color-border-subtle)]/40">
-            <div className="flex items-center justify-center gap-1.5 text-[10px] font-mono text-[var(--color-muted-steel)] mb-2">
-              <Sparkles className="w-3 h-3 text-[#F4C04E]" />
+          <div className="pt-2 border-t border-line/40">
+            <div className="flex items-center justify-center gap-1.5 text-[10px] font-mono text-muted mb-2">
+              <Sparkles className="w-3 h-3 text-accent-text" />
               <span>Or choose a MODULA preset:</span>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-2">
@@ -209,7 +209,7 @@ export const BannerUploader: React.FC<BannerUploaderProps> = ({
                   key={preset.name}
                   type="button"
                   onClick={() => onBannerChange(preset.url)}
-                  className="px-2.5 py-1 rounded border border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] hover:border-[#A91535] text-[11px] font-mono text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] transition-colors cursor-pointer"
+                  className="px-2.5 py-1 rounded border border-line bg-canvas hover:border-accent text-[11px] font-mono text-muted hover:text-ink transition-colors cursor-pointer"
                 >
                   {preset.name}
                 </button>
@@ -227,18 +227,18 @@ export const BannerUploader: React.FC<BannerUploaderProps> = ({
             value={customUrl}
             onChange={(e) => setCustomUrl(e.target.value)}
             placeholder="https://example.com/banner-image.jpg"
-            className="flex-1 bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-3 py-1.5 text-xs text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-1 focus:ring-[#A91535] font-mono"
+            className="flex-1 bg-canvas border border-line rounded px-3 py-1.5 text-xs text-ink placeholder-muted focus:outline-none focus:ring-1 focus:ring-accent font-mono"
           />
           <button
             type="submit"
-            className="px-3 py-1.5 rounded bg-[#A91535] text-xs font-mono font-medium text-white hover:bg-[#C74B63] transition-colors cursor-pointer"
+            className="px-3 py-1.5 rounded bg-accent text-xs font-mono font-medium text-on-accent hover:bg-accent-hover transition-colors cursor-pointer"
           >
             Apply
           </button>
           <button
             type="button"
             onClick={() => setShowUrlInput(false)}
-            className="px-2.5 py-1.5 rounded border border-[var(--color-border-subtle)] text-xs font-mono text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] transition-colors cursor-pointer"
+            className="px-2.5 py-1.5 rounded border border-line text-xs font-mono text-muted hover:text-ink transition-colors cursor-pointer"
           >
             Cancel
           </button>

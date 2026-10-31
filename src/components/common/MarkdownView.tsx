@@ -38,7 +38,7 @@ export const MarkdownView: React.FC<MarkdownViewProps> = ({
         parts.push(
           <code
             key={key++}
-            className="font-mono text-[0.85em] bg-[var(--color-panel-elevated)] text-[var(--color-burgundy-soft)] px-1.5 py-0.5 rounded border border-[var(--color-border-subtle)]"
+            className="font-mono text-[0.85em] bg-raised text-accent-text px-1.5 py-0.5 rounded border border-line"
           >
             {codeMatch[1]}
           </code>
@@ -51,7 +51,7 @@ export const MarkdownView: React.FC<MarkdownViewProps> = ({
       const boldMatch = remaining.match(/^(\*\*|__)(.+?)\1/);
       if (boldMatch) {
         parts.push(
-          <strong key={key++} className="font-bold text-[var(--color-soft-white)]">
+          <strong key={key++} className="font-bold text-ink">
             {parseInline(boldMatch[2])}
           </strong>
         );
@@ -63,7 +63,7 @@ export const MarkdownView: React.FC<MarkdownViewProps> = ({
       const italicMatch = remaining.match(/^(\*|_)([^*_]+?)\1/);
       if (italicMatch) {
         parts.push(
-          <em key={key++} className="italic text-[var(--color-steel)]">
+          <em key={key++} className="italic text-ink-soft">
             {parseInline(italicMatch[2])}
           </em>
         );
@@ -107,7 +107,7 @@ export const MarkdownView: React.FC<MarkdownViewProps> = ({
     if (!listBuffer) return;
     if (listBuffer.type === 'ul') {
       elements.push(
-        <ul key={blockKey++} className="list-disc list-inside space-y-1 my-2 text-sm text-[var(--color-steel)]">
+        <ul key={blockKey++} className="list-disc list-inside space-y-1 my-2 text-sm text-ink-soft">
           {listBuffer.items.map((item, idx) => (
             <li key={idx}>{parseInline(item)}</li>
           ))}
@@ -115,7 +115,7 @@ export const MarkdownView: React.FC<MarkdownViewProps> = ({
       );
     } else {
       elements.push(
-        <ol key={blockKey++} className="list-decimal list-inside space-y-1 my-2 text-sm text-[var(--color-steel)]">
+        <ol key={blockKey++} className="list-decimal list-inside space-y-1 my-2 text-sm text-ink-soft">
           {listBuffer.items.map((item, idx) => (
             <li key={idx}>{parseInline(item)}</li>
           ))}
@@ -130,7 +130,7 @@ export const MarkdownView: React.FC<MarkdownViewProps> = ({
     elements.push(
       <blockquote
         key={blockKey++}
-        className="border-l-2 border-[var(--color-burgundy-soft)] pl-3 my-2 text-xs sm:text-sm text-[var(--color-muted-steel)] italic bg-[var(--color-panel-elevated)]/40 py-1.5 rounded-r"
+        className="border-l-2 border-accent-text pl-3 my-2 text-xs sm:text-sm text-muted italic bg-raised/40 py-1.5 rounded-r"
       >
         {blockquoteBuffer.map((line, idx) => (
           <p key={idx}>{parseInline(line)}</p>
@@ -150,14 +150,14 @@ export const MarkdownView: React.FC<MarkdownViewProps> = ({
         elements.push(
           <pre
             key={blockKey++}
-            className="my-3 p-3 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] overflow-x-auto text-left"
+            className="my-3 p-3 rounded-lg border border-line bg-canvas overflow-x-auto text-left"
           >
             {codeLang && (
-              <span className="block text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted-steel)] mb-1 pb-1 border-b border-[var(--color-border-subtle)]/50">
+              <span className="block text-[10px] font-mono uppercase tracking-wider text-muted mb-1 pb-1 border-b border-line/50">
                 {codeLang}
               </span>
             )}
-            <code className="font-mono text-xs leading-relaxed text-[var(--color-soft-white)] block whitespace-pre">
+            <code className="font-mono text-xs leading-relaxed text-ink block whitespace-pre">
               {codeBuffer.join('\n')}
             </code>
           </pre>
@@ -233,9 +233,9 @@ export const MarkdownView: React.FC<MarkdownViewProps> = ({
     elements.push(
       <pre
         key={blockKey++}
-        className="my-3 p-3 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] overflow-x-auto text-left"
+        className="my-3 p-3 rounded-lg border border-line bg-canvas overflow-x-auto text-left"
       >
-        <code className="font-mono text-xs leading-relaxed text-[var(--color-soft-white)] block whitespace-pre">
+        <code className="font-mono text-xs leading-relaxed text-ink block whitespace-pre">
           {codeBuffer.join('\n')}
         </code>
       </pre>

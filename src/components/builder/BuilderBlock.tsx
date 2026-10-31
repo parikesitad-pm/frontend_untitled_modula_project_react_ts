@@ -33,7 +33,7 @@ interface BuilderBlockProps {
   onMoveDown: () => void;
 }
 
-const TYPE_ICONS: Record<BlockType, React.ElementType> = {
+const TYPE_ICONS: Record<BlockType, React.ComponentType<{ className?: string }>> = {
   header: Heading,
   section: SplitSquareVertical,
   title_description: AlignLeft,
@@ -81,23 +81,23 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
         }
       }}
       className={cn(
-        'group relative rounded-lg border bg-[var(--color-panel)] p-4 sm:p-5 transition-all duration-150',
+        'group relative rounded-lg border bg-surface p-4 sm:p-5 transition-all duration-150',
         isFocused
-          ? 'border-[#A91535] ring-1 ring-[#7A1025] shadow-lg shadow-[#7A1025]/15'
-          : 'border-[var(--color-border-subtle)] hover:border-[var(--color-steel)]/50'
+          ? 'border-accent ring-1 ring-accent-deep shadow-lg shadow-accent-deep/15'
+          : 'border-line hover:border-ink-soft/50'
       )}
     >
       {/* Top Action Toolbar Row: Move | Duplicate | Delete directly accessible */}
-      <div className="flex items-center justify-between gap-3 pb-3 mb-3 border-b border-[var(--color-border-subtle)]/60">
+      <div className="flex items-center justify-between gap-3 pb-3 mb-3 border-b border-line/60">
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 font-mono text-[11px] text-[var(--color-muted-steel)] bg-[var(--color-charcoal)] px-2 py-0.5 rounded border border-[var(--color-border-subtle)]">
+          <div className="flex items-center gap-1 font-mono text-[11px] text-muted bg-canvas px-2 py-0.5 rounded border border-line">
             <span>#{index + 1}</span>
             <span>·</span>
-            <Icon className="w-3 h-3 text-[var(--color-steel)]" />
-            <span className="uppercase font-semibold text-[var(--color-steel)]">{block.type.replace('_', ' ')}</span>
+            <Icon className="w-3 h-3 text-ink-soft" />
+            <span className="uppercase font-semibold text-ink-soft">{block.type.replace('_', ' ')}</span>
           </div>
           {block.required && (
-            <span className="flex items-center text-[10px] font-mono text-[#C74B63] bg-[#4A0714]/20 px-1.5 py-0.5 rounded border border-[#7A1025]/50">
+            <span className="flex items-center text-[10px] font-mono text-accent-text bg-accent-tint/20 px-1.5 py-0.5 rounded border border-accent-deep/50">
               <Asterisk className="w-2.5 h-2.5" /> Required
             </span>
           )}
@@ -109,21 +109,21 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
           <button
             type="button"
             onClick={() => setPreviewMd(!previewMd)}
-            className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-mono text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] hover:bg-[var(--color-panel-elevated)] border border-transparent hover:border-[var(--color-border-subtle)] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-mono text-muted hover:text-ink hover:bg-raised border border-transparent hover:border-line transition-colors cursor-pointer"
             title="Toggle Markdown Preview"
           >
             {previewMd ? <Edit2 className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
             <span className="hidden sm:inline">{previewMd ? 'Raw' : 'Preview'}</span>
           </button>
 
-          <div className="w-px h-3.5 bg-[var(--color-border-subtle)] mx-1" />
+          <div className="w-px h-3.5 bg-line mx-1" />
 
           {/* Move Up */}
           <button
             type="button"
             disabled={index === 0}
             onClick={onMoveUp}
-            className="p-1.5 rounded text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] hover:bg-[var(--color-panel-elevated)] disabled:opacity-30 disabled:hover:text-[var(--color-muted-steel)] transition-colors cursor-pointer"
+            className="p-1.5 rounded text-muted hover:text-ink hover:bg-raised disabled:opacity-30 disabled:hover:text-muted transition-colors cursor-pointer"
             title="Move Block Up"
           >
             <ChevronUp className="w-4 h-4" />
@@ -134,7 +134,7 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
             type="button"
             disabled={index === totalBlocks - 1}
             onClick={onMoveDown}
-            className="p-1.5 rounded text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] hover:bg-[var(--color-panel-elevated)] disabled:opacity-30 disabled:hover:text-[var(--color-muted-steel)] transition-colors cursor-pointer"
+            className="p-1.5 rounded text-muted hover:text-ink hover:bg-raised disabled:opacity-30 disabled:hover:text-muted transition-colors cursor-pointer"
             title="Move Block Down"
           >
             <ChevronDown className="w-4 h-4" />
@@ -144,7 +144,7 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
           <button
             type="button"
             onClick={onDuplicate}
-            className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-mono text-[var(--color-steel)] hover:text-[var(--color-soft-white)] hover:bg-[var(--color-panel-elevated)] border border-[var(--color-border-subtle)] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-mono text-ink-soft hover:text-ink hover:bg-raised border border-line transition-colors cursor-pointer"
             title="Duplicate Block"
           >
             <Copy className="w-3.5 h-3.5" />
@@ -155,7 +155,7 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
           <button
             type="button"
             onClick={onDelete}
-            className="p-1.5 rounded text-[var(--color-muted-steel)] hover:text-red-400 hover:bg-red-950/20 transition-colors cursor-pointer"
+            className="p-1.5 rounded text-muted hover:text-red-400 hover:bg-red-950/20 transition-colors cursor-pointer"
             title="Delete Block"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -168,7 +168,7 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
         {/* Title Input / MD Preview */}
         <div>
           {previewMd ? (
-            <div className="p-2 rounded bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] text-sm sm:text-base font-semibold text-[var(--color-soft-white)]">
+            <div className="p-2 rounded bg-canvas border border-line text-sm sm:text-base font-semibold text-ink">
               <MarkdownView content={block.title || '*(Empty Prompt)*'} />
             </div>
           ) : (
@@ -183,7 +183,7 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
                   ? 'Sub-section Name...'
                   : 'Question prompt (e.g. In `React 19`, which hook...)...'
               }
-              className="w-full bg-transparent text-sm sm:text-base font-semibold text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)]/50 focus:outline-none focus:ring-1 focus:ring-[#A91535] px-2 py-1 rounded border border-transparent hover:border-[var(--color-border-subtle)]"
+              className="w-full bg-transparent text-sm sm:text-base font-semibold text-ink placeholder-muted/50 focus:outline-none focus:ring-1 focus:ring-accent px-2 py-1 rounded border border-transparent hover:border-line"
             />
           )}
         </div>
@@ -191,7 +191,7 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
         {/* Description / Helper Text Input */}
         <div>
           {previewMd && block.description ? (
-            <div className="p-2 rounded bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] text-xs text-[var(--color-muted-steel)]">
+            <div className="p-2 rounded bg-canvas border border-line text-xs text-muted">
               <MarkdownView content={block.description} />
             </div>
           ) : (
@@ -200,7 +200,7 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
               value={block.description || ''}
               onChange={(e) => onUpdate({ description: e.target.value })}
               placeholder="Optional helper text or instructions (Markdown supported)..."
-              className="w-full bg-transparent text-xs text-[var(--color-muted-steel)] placeholder-[var(--color-muted-steel)]/40 focus:outline-none focus:ring-1 focus:ring-[#A91535] px-2 py-1 rounded border border-transparent hover:border-[var(--color-border-subtle)]"
+              className="w-full bg-transparent text-xs text-muted placeholder-muted/40 focus:outline-none focus:ring-1 focus:ring-accent px-2 py-1 rounded border border-transparent hover:border-line"
             />
           )}
         </div>
@@ -222,41 +222,41 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
         {block.type === 'scale' && (
           <div className="pt-2 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
             <div>
-              <label className="block text-[10px] uppercase text-[var(--color-muted-steel)] mb-1">Scale Min</label>
+              <label className="block text-[10px] uppercase text-muted mb-1">Scale Min</label>
               <input
                 type="number"
                 value={block.scaleMin ?? 1}
                 onChange={(e) => onUpdate({ scaleMin: parseInt(e.target.value) || 1 })}
-                className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-2 py-1 text-[var(--color-soft-white)]"
+                className="w-full bg-canvas border border-line rounded px-2 py-1 text-ink"
               />
             </div>
             <div>
-              <label className="block text-[10px] uppercase text-[var(--color-muted-steel)] mb-1">Scale Max</label>
+              <label className="block text-[10px] uppercase text-muted mb-1">Scale Max</label>
               <input
                 type="number"
                 value={block.scaleMax ?? 5}
                 onChange={(e) => onUpdate({ scaleMax: parseInt(e.target.value) || 5 })}
-                className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-2 py-1 text-[var(--color-soft-white)]"
+                className="w-full bg-canvas border border-line rounded px-2 py-1 text-ink"
               />
             </div>
             <div>
-              <label className="block text-[10px] uppercase text-[var(--color-muted-steel)] mb-1">Min Label</label>
+              <label className="block text-[10px] uppercase text-muted mb-1">Min Label</label>
               <input
                 type="text"
                 value={block.scaleMinLabel || ''}
                 onChange={(e) => onUpdate({ scaleMinLabel: e.target.value })}
                 placeholder="Low..."
-                className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-2 py-1 text-[var(--color-soft-white)]"
+                className="w-full bg-canvas border border-line rounded px-2 py-1 text-ink"
               />
             </div>
             <div>
-              <label className="block text-[10px] uppercase text-[var(--color-muted-steel)] mb-1">Max Label</label>
+              <label className="block text-[10px] uppercase text-muted mb-1">Max Label</label>
               <input
                 type="text"
                 value={block.scaleMaxLabel || ''}
                 onChange={(e) => onUpdate({ scaleMaxLabel: e.target.value })}
                 placeholder="High..."
-                className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-2 py-1 text-[var(--color-soft-white)]"
+                className="w-full bg-canvas border border-line rounded px-2 py-1 text-ink"
               />
             </div>
           </div>
@@ -269,7 +269,7 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
               value={block.placeholder || ''}
               onChange={(e) => onUpdate({ placeholder: e.target.value })}
               placeholder="Custom input placeholder for participants..."
-              className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-3 py-1.5 text-xs text-[var(--color-muted-steel)]"
+              className="w-full bg-canvas border border-line rounded px-3 py-1.5 text-xs text-muted"
             />
           </div>
         )}
@@ -281,10 +281,10 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
               value={block.mediaUrl || ''}
               onChange={(e) => onUpdate({ mediaUrl: e.target.value })}
               placeholder="Image URL (e.g. https://... or /brand/...)"
-              className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-3 py-1.5 text-xs text-[var(--color-soft-white)]"
+              className="w-full bg-canvas border border-line rounded px-3 py-1.5 text-xs text-ink"
             />
             {block.mediaUrl && (
-              <div className="max-h-48 overflow-hidden rounded border border-[var(--color-border-subtle)] bg-[var(--color-charcoal)]">
+              <div className="max-h-48 overflow-hidden rounded border border-line bg-canvas">
                 <img src={block.mediaUrl} alt={block.mediaAlt || 'Block media preview'} className="object-contain w-full max-h-48" />
               </div>
             )}
@@ -294,26 +294,26 @@ export const BuilderBlock: React.FC<BuilderBlockProps> = ({
 
       {/* Bottom Block Settings Bar (Points & Required) */}
       {isQuestion && (
-        <div className="mt-4 pt-3 border-t border-[var(--color-border-subtle)]/60 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[var(--color-muted-steel)]">
+        <div className="mt-4 pt-3 border-t border-line/60 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-muted">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
-              <Award className="w-3.5 h-3.5 text-[#F4C04E]" />
+              <Award className="w-3.5 h-3.5 text-accent-text" />
               <span>Points:</span>
               <input
                 type="number"
                 value={block.points ?? 20}
                 onChange={(e) => onUpdate({ points: parseInt(e.target.value) || 0 })}
-                className="w-14 bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-1.5 py-0.5 text-center text-[var(--color-soft-white)]"
+                className="w-14 bg-canvas border border-line rounded px-1.5 py-0.5 text-center text-ink"
               />
             </div>
           </div>
 
-          <label className="flex items-center gap-2 cursor-pointer select-none text-[var(--color-steel)] hover:text-[var(--color-soft-white)]">
+          <label className="flex items-center gap-2 cursor-pointer select-none text-ink-soft hover:text-ink">
             <input
               type="checkbox"
               checked={block.required ?? false}
               onChange={(e) => onUpdate({ required: e.target.checked })}
-              className="accent-[#A91535] rounded"
+              className="accent-accent rounded"
             />
             <span>Required</span>
           </label>

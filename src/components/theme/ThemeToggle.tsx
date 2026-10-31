@@ -19,7 +19,7 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className }) => 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const options: { value: AppTheme; label: string; icon: React.ElementType }[] = [
+  const options: { value: AppTheme; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { value: 'dark', label: 'Dark', icon: Moon },
     { value: 'light', label: 'Light', icon: Sun },
     { value: 'system', label: 'System', icon: Laptop },
@@ -32,7 +32,7 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className }) => 
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="p-1.5 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] text-[var(--color-steel)] hover:text-[var(--color-soft-white)] hover:bg-[var(--color-panel-elevated)] transition-colors cursor-pointer"
+        className="p-1.5 rounded-lg border border-line bg-surface text-ink-soft hover:text-ink hover:bg-raised transition-colors cursor-pointer"
         title={`Theme: ${theme} (${resolvedTheme})`}
         aria-label="Toggle Theme"
       >
@@ -40,7 +40,7 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className }) => 
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-1.5 w-32 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel-elevated)] shadow-xl z-50 py-1 font-mono text-xs">
+        <div className="absolute right-0 mt-1.5 w-32 rounded-lg border border-line bg-raised shadow-xl z-50 py-1 font-mono text-xs">
           {options.map((opt) => {
             const Icon = opt.icon;
             const isSelected = theme === opt.value;
@@ -55,8 +55,8 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className }) => 
                 className={cn(
                   'w-full flex items-center gap-2 px-3 py-1.5 text-left transition-colors cursor-pointer',
                   isSelected
-                    ? 'bg-[var(--color-burgundy)] text-white font-semibold'
-                    : 'text-[var(--color-steel)] hover:bg-[var(--color-panel)] hover:text-[var(--color-soft-white)]'
+                    ? 'bg-accent text-on-accent font-semibold'
+                    : 'text-ink-soft hover:bg-surface hover:text-ink'
                 )}
               >
                 <Icon className="w-3.5 h-3.5" />

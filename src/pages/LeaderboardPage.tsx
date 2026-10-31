@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { usePageReveal } from '@/hooks/usePageReveal';
 import { useParams, Link } from 'react-router-dom';
 import { useAssessment } from '@/context/useAssessment';
 import { BrandLogo } from '@/components/brand/BrandLogo';
@@ -12,6 +13,8 @@ export const LeaderboardPage: React.FC = () => {
   const { getAssessmentBySlug, leaderboards } = useAssessment();
 
   const assessment = getAssessmentBySlug(slug || '');
+  const revealRef = useRef<HTMLElement>(null);
+  usePageReveal(revealRef, assessment?.presentationMode === 'playful' ? 'playful' : 'formal');
   const boardEntries: LeaderboardEntry[] = leaderboards[slug || ''] || [];
 
   const isLeaderboardEnabled = assessment ? assessment.leaderboardEnabled : true;
@@ -20,25 +23,25 @@ export const LeaderboardPage: React.FC = () => {
   const others = boardEntries.filter((e: LeaderboardEntry) => e.rank > 3);
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[var(--color-charcoal)] text-[var(--color-soft-white)]">
-      <header className="sticky top-0 z-40 w-full border-b border-[var(--color-border-subtle)] bg-[var(--color-charcoal)]/90 backdrop-blur-md px-4 sm:px-6 py-3.5">
+    <div className="min-h-screen flex flex-col justify-between bg-canvas text-ink">
+      <header className="sticky top-0 z-40 w-full border-b border-line bg-canvas/90 backdrop-blur-md px-4 sm:px-6 py-3.5">
         <div className="mx-auto max-w-4xl flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
               to="/dashboard"
-              className="inline-flex items-center gap-1.5 text-xs font-mono text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-mono text-muted hover:text-ink transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Dashboard</span>
             </Link>
-            <span className="text-[var(--color-border-subtle)]">/</span>
+            <span className="text-line">/</span>
             <BrandLogo size="sm" linkTo="/" />
           </div>
 
           {assessment && (
             <Link
               to={`/${assessment.slug}/start`}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold rounded bg-[#A91535] text-white hover:bg-[#C74B63] transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold rounded bg-accent text-on-accent hover:bg-accent-hover transition-colors shadow-sm"
             >
               <Play className="w-3 h-3 fill-current" />
               <span>Join Arena</span>
@@ -47,18 +50,18 @@ export const LeaderboardPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-8 sm:px-6 space-y-8">
+      <main ref={revealRef} className="flex-1 max-w-4xl w-full mx-auto px-4 py-8 sm:px-6 space-y-8">
         {!isLeaderboardEnabled ? (
           /* Clean Disabled / Unavailable State when leaderboardEnabled is false */
-          <div className="py-16 text-center border border-dashed border-[var(--color-border-subtle)] rounded-xl bg-[var(--color-panel)] p-8 max-w-lg mx-auto space-y-4 shadow-lg">
-            <div className="w-14 h-14 rounded-full bg-[var(--color-panel-elevated)] border border-[var(--color-border-subtle)] flex items-center justify-center text-[var(--color-muted-steel)] mx-auto">
+          <div className="py-16 text-center border border-dashed border-line rounded-xl bg-surface p-8 max-w-lg mx-auto space-y-4 shadow-lg">
+            <div className="w-14 h-14 rounded-full bg-raised border border-line flex items-center justify-center text-muted mx-auto">
               <Lock className="w-6 h-6" />
             </div>
             <div className="space-y-1">
-              <h2 className="text-lg font-bold text-[var(--color-soft-white)]">
+              <h2 className="text-lg font-bold text-ink">
                 Leaderboard is Disabled
               </h2>
-              <p className="text-xs text-[var(--color-muted-steel)] leading-relaxed">
+              <p className="text-xs text-muted leading-relaxed">
                 The creator of <strong>{assessment?.title || 'this assessment'}</strong> has configured participant rankings and scores to remain confidential.
               </p>
             </div>
@@ -67,7 +70,7 @@ export const LeaderboardPage: React.FC = () => {
               {assessment && (
                 <Link
                   to={`/${assessment.slug}/start`}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#A91535] hover:bg-[#C74B63] font-mono text-xs font-semibold text-white transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover font-mono text-xs font-semibold text-on-accent transition-colors"
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
                   <span>Start Assessment</span>
@@ -75,7 +78,7 @@ export const LeaderboardPage: React.FC = () => {
               )}
               <Link
                 to="/dashboard"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[var(--color-panel-elevated)] hover:bg-[var(--color-border-subtle)] font-mono text-xs text-[var(--color-steel)] transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-raised hover:bg-line font-mono text-xs text-ink-soft transition-colors"
               >
                 <span>Dashboard</span>
               </Link>
@@ -84,15 +87,15 @@ export const LeaderboardPage: React.FC = () => {
         ) : (
           <>
             <div className="text-center space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#D49D26]/40 bg-[#F4C04E]/10 text-[#F4C04E] font-mono text-xs font-bold">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-deep/40 bg-accent/10 text-accent-text font-mono text-xs font-bold">
                 <Trophy className="w-3.5 h-3.5" />
                 <span>Live Assessment Leaderboard</span>
               </div>
 
-              <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[var(--color-soft-white)]">
+              <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-ink">
                 {assessment ? assessment.title : 'Global Leaderboard'}
               </h1>
-              <p className="text-xs sm:text-sm text-[var(--color-muted-steel)] max-w-lg mx-auto">
+              <p className="text-xs sm:text-sm text-muted max-w-lg mx-auto">
                 Live real-time ranking based on precision accuracy and answer speed.
               </p>
             </div>
@@ -119,7 +122,7 @@ export const LeaderboardPage: React.FC = () => {
 
                 {others.length > 0 && (
                   <div className="space-y-2 pt-4">
-                    <div className="flex items-center justify-between text-[11px] font-mono uppercase text-[var(--color-muted-steel)] px-2">
+                    <div className="flex items-center justify-between text-[11px] font-mono uppercase text-muted px-2">
                       <span>Rank & Participant</span>
                       <div className="flex items-center gap-6">
                         <span>Duration</span>
@@ -136,10 +139,10 @@ export const LeaderboardPage: React.FC = () => {
                 )}
               </div>
             ) : (
-              <div className="text-center py-16 border border-dashed border-[var(--color-border-subtle)] rounded-lg bg-[var(--color-panel)]/50">
-                <Trophy className="w-8 h-8 text-[var(--color-muted-steel)] mx-auto mb-2" />
-                <h3 className="text-sm font-semibold text-[var(--color-soft-white)]">No leaderboard entries yet</h3>
-                <p className="text-xs text-[var(--color-muted-steel)] mt-1">Be the first to complete this assessment.</p>
+              <div className="text-center py-16 border border-dashed border-line rounded-lg bg-surface/50">
+                <Trophy className="w-8 h-8 text-muted mx-auto mb-2" />
+                <h3 className="text-sm font-semibold text-ink">No leaderboard entries yet</h3>
+                <p className="text-xs text-muted mt-1">Be the first to complete this assessment.</p>
               </div>
             )}
           </>

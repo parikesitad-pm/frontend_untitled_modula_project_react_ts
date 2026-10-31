@@ -33,7 +33,7 @@ export const AssessmentOverviewPage: React.FC = () => {
       <AppShell>
         <div className="text-center py-20">
           <h2 className="text-xl font-bold">Assessment not found</h2>
-          <Link to="/dashboard" className="text-[#C74B63] hover:underline mt-2 inline-block">
+          <Link to="/dashboard" className="text-accent-text hover:underline mt-2 inline-block">
             Return to Dashboard
           </Link>
         </div>
@@ -80,13 +80,13 @@ export const AssessmentOverviewPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleToggleStatus}
-                className="px-3 py-1.5 rounded border border-[var(--color-border-subtle)] bg-[var(--color-panel-elevated)] text-xs font-mono text-[var(--color-steel)] hover:text-[var(--color-soft-white)] transition-colors cursor-pointer"
+                className="px-3 py-1.5 rounded border border-line bg-raised text-xs font-mono text-ink-soft hover:text-ink transition-colors cursor-pointer"
               >
                 {assessment.status === 'active' ? 'Set as Draft' : 'Publish Live'}
               </button>
               <Link
                 to={`/dashboard/${assessment.id}/builder`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#A91535] text-xs font-mono font-semibold text-white hover:bg-[#C74B63] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-accent text-xs font-mono font-semibold text-on-accent hover:bg-accent-hover transition-colors"
               >
                 <Edit3 className="w-3.5 h-3.5" />
                 <span>Open Builder</span>
@@ -106,78 +106,78 @@ export const AssessmentOverviewPage: React.FC = () => {
         )}
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[var(--color-muted-steel)] font-mono text-[11px] uppercase">
-              <Users className="w-4 h-4 text-[#5AA9FF]" />
+          <div className="rounded-lg border border-line bg-surface p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted font-mono text-[11px] uppercase">
+              <Users className="w-4 h-4 text-info" />
               <span>Participants</span>
             </div>
-            <div className="mt-2 text-2xl font-bold font-mono text-[var(--color-soft-white)]">
+            <div className="mt-2 text-2xl font-bold font-mono text-ink">
               {assessment.participantCount}
             </div>
-            <div className="mt-1 text-[11px] text-[var(--color-muted-steel)]">Total submissions recorded</div>
+            <div className="mt-1 text-[11px] text-muted">Total submissions recorded</div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[var(--color-muted-steel)] font-mono text-[11px] uppercase">
-              <BarChart2 className="w-4 h-4 text-[#46D19E]" />
+          <div className="rounded-lg border border-line bg-surface p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted font-mono text-[11px] uppercase">
+              <BarChart2 className="w-4 h-4 text-success" />
               <span>Average Score</span>
             </div>
-            <div className="mt-2 text-2xl font-bold font-mono text-[var(--color-soft-white)]">
+            <div className="mt-2 text-2xl font-bold font-mono text-ink">
               {assessment.averageScore}%
             </div>
-            <div className="mt-1 text-[11px] text-[var(--color-muted-steel)]">Passing threshold: {assessment.settings.passPercentage}%</div>
+            <div className="mt-1 text-[11px] text-muted">Passing threshold: {assessment.settings.passPercentage}%</div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[var(--color-muted-steel)] font-mono text-[11px] uppercase">
-              <CheckCircle2 className="w-4 h-4 text-[#F4C04E]" />
+          <div className="rounded-lg border border-line bg-surface p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted font-mono text-[11px] uppercase">
+              <CheckCircle2 className="w-4 h-4 text-accent-text" />
               <span>Completion Rate</span>
             </div>
-            <div className="mt-2 text-2xl font-bold font-mono text-[var(--color-soft-white)]">
+            <div className="mt-2 text-2xl font-bold font-mono text-ink">
               {assessment.completionRate}%
             </div>
-            <div className="mt-1 text-[11px] text-[var(--color-muted-steel)]">Finished without abandonment</div>
+            <div className="mt-1 text-[11px] text-muted">Finished without abandonment</div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[var(--color-muted-steel)] font-mono text-[11px] uppercase">
-              <Layers className="w-4 h-4 text-[#C74B63]" />
+          <div className="rounded-lg border border-line bg-surface p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted font-mono text-[11px] uppercase">
+              <Layers className="w-4 h-4 text-accent-text" />
               <span>Block Schema</span>
             </div>
-            <div className="mt-2 text-2xl font-bold font-mono text-[var(--color-soft-white)]">
+            <div className="mt-2 text-2xl font-bold font-mono text-ink">
               {questionsCount} questions
             </div>
-            <div className="mt-1 text-[11px] text-[var(--color-muted-steel)]">{assessment.blocks.length} total blocks</div>
+            <div className="mt-1 text-[11px] text-muted">{assessment.blocks.length} total blocks</div>
           </div>
         </div>
 
-        <div className="rounded-lg border border-[#7A1025]/50 bg-gradient-to-r from-[#4A0714]/20 via-[var(--color-panel)] to-[var(--color-panel)] p-5 shadow-sm">
+        <div className="rounded-lg border border-accent-deep/50 bg-gradient-to-r from-accent-tint/20 via-surface to-surface p-5 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#C74B63] font-bold">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase text-accent-text font-bold">
                 <Share2 className="w-4 h-4" />
                 <span>Participant Access Link</span>
               </div>
-              <p className="text-xs text-[var(--color-muted-steel)]">
+              <p className="text-xs text-muted">
                 Distribute this URL to candidates or project it on display screens for live arena sessions.
               </p>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded px-3 py-1.5 font-mono text-xs text-[var(--color-steel)] max-w-xs truncate">
+              <div className="bg-canvas border border-line rounded px-3 py-1.5 font-mono text-xs text-ink-soft max-w-xs truncate">
                 /{assessment.slug}/start
               </div>
               <button
                 type="button"
                 onClick={handleCopyLink}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[var(--color-panel-elevated)] hover:bg-[var(--color-border-subtle)] border border-[var(--color-border-subtle)] text-xs font-mono text-[var(--color-soft-white)] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-raised hover:bg-line border border-line text-xs font-mono text-ink transition-colors cursor-pointer"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? 'Copied!' : 'Copy'}</span>
               </button>
               <Link
                 to={`/dashboard/${assessment.id}/live`}
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded bg-[#A91535] hover:bg-[#C74B63] text-xs font-mono font-semibold text-white transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded bg-accent hover:bg-accent-hover text-xs font-mono font-semibold text-on-accent transition-colors"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
                 <span>Open Host Lobby</span>
@@ -187,14 +187,14 @@ export const AssessmentOverviewPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-5 space-y-4 shadow-sm">
+        <div className="rounded-lg border border-line bg-surface p-5 space-y-4 shadow-sm">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold font-mono text-[var(--color-soft-white)] uppercase tracking-wider">
+            <h3 className="text-sm font-bold font-mono text-ink uppercase tracking-wider">
               Assessment Block Structure
             </h3>
             <Link
               to={`/dashboard/${assessment.id}/builder`}
-              className="inline-flex items-center gap-1 text-xs font-mono text-[#C74B63] hover:underline"
+              className="inline-flex items-center gap-1 text-xs font-mono text-accent-text hover:underline"
             >
               <span>Edit in Builder</span>
               <ArrowRight className="w-3 h-3" />
@@ -205,17 +205,17 @@ export const AssessmentOverviewPage: React.FC = () => {
             {assessment.blocks.map((block: Question, idx: number) => (
               <div
                 key={block.id}
-                className="flex items-center justify-between p-3 rounded border border-[var(--color-border-subtle)] bg-[var(--color-charcoal)] text-xs font-mono"
+                className="flex items-center justify-between p-3 rounded border border-line bg-canvas text-xs font-mono"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-[var(--color-muted-steel)] font-bold">#{idx + 1}</span>
-                  <span className="px-1.5 py-0.5 rounded bg-[var(--color-panel-elevated)] text-[var(--color-steel)] uppercase text-[10px]">
+                  <span className="text-muted font-bold">#{idx + 1}</span>
+                  <span className="px-1.5 py-0.5 rounded bg-raised text-ink-soft uppercase text-[10px]">
                     {block.type.replace('_', ' ')}
                   </span>
-                  <span className="font-sans font-medium text-[var(--color-soft-white)] line-clamp-1">{block.title}</span>
+                  <span className="font-sans font-medium text-ink line-clamp-1">{block.title}</span>
                 </div>
 
-                <div className="flex items-center gap-4 text-[var(--color-muted-steel)]">
+                <div className="flex items-center gap-4 text-muted">
                   {block.points !== undefined && (
                     <span>{block.points} pts</span>
                   )}

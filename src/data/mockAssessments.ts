@@ -381,7 +381,7 @@ export const mockLeaderboards: Record<string, LeaderboardEntry[]> = {
 export const modulaRegistryProjects = [
   {
     seq: '01',
-    system: 'Untitled',
+    system: 'QUEICE',
     badge: 'CURRENT SYSTEM',
     status: 'LIVE',
     statusType: 'live',

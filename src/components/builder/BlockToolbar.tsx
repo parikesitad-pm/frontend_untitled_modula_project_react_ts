@@ -17,7 +17,7 @@ interface BlockToolbarProps {
 }
 
 export const BlockToolbar: React.FC<BlockToolbarProps> = ({ onAddBlock }) => {
-  const blockTypes: { type: BlockType; label: string; icon: React.ElementType; description: string }[] = [
+  const blockTypes: { type: BlockType; label: string; icon: React.ComponentType<{ className?: string }>; description: string }[] = [
     { type: 'choice', label: 'Single Choice', icon: CheckCircle2, description: 'Single select with play mode colors' },
     { type: 'checkbox', label: 'Checkboxes', icon: CheckSquare, description: 'Multi-select options' },
     { type: 'text', label: 'Text Response', icon: Type, description: 'Short or paragraph answer' },
@@ -30,12 +30,12 @@ export const BlockToolbar: React.FC<BlockToolbarProps> = ({ onAddBlock }) => {
   ];
 
   return (
-    <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 shadow-sm">
+    <div className="rounded-lg border border-line bg-surface p-4 shadow-sm">
       <div className="flex items-center justify-between mb-3">
-        <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--color-steel)]">
+        <span className="font-mono text-xs font-semibold uppercase tracking-wider text-ink-soft">
           Add Stackable Block
         </span>
-        <span className="font-mono text-[11px] text-[var(--color-muted-steel)]">
+        <span className="font-mono text-[11px] text-muted">
           Click to insert at bottom
         </span>
       </div>
@@ -48,11 +48,11 @@ export const BlockToolbar: React.FC<BlockToolbarProps> = ({ onAddBlock }) => {
               key={item.type}
               onClick={() => onAddBlock(item.type)}
               type="button"
-              className="flex flex-col items-center justify-center p-2.5 rounded border border-[var(--color-border-subtle)] bg-[var(--color-panel-elevated)] hover:bg-[#7A1025]/20 hover:border-[#A91535] hover:text-[var(--color-soft-white)] transition-all text-center group cursor-pointer focus-visible:ring-2 focus-visible:ring-[#A91535]"
+              className="flex flex-col items-center justify-center p-2.5 rounded border border-line bg-raised hover:bg-accent-deep/20 hover:border-accent hover:text-ink transition-all text-center group cursor-pointer focus-visible:ring-2 focus-visible:ring-accent"
               title={item.description}
             >
-              <Icon className="w-4 h-4 text-[var(--color-steel)] group-hover:text-[var(--color-soft-white)] mb-1.5 transition-colors" />
-              <span className="text-[11px] font-medium text-[var(--color-steel)] group-hover:text-[var(--color-soft-white)] line-clamp-1">
+              <Icon className="w-4 h-4 text-ink-soft group-hover:text-ink mb-1.5 transition-colors" />
+              <span className="text-[11px] font-medium text-ink-soft group-hover:text-ink line-clamp-1">
                 {item.label}
               </span>
             </button>

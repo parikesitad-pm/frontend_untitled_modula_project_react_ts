@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { usePageReveal } from '@/hooks/usePageReveal';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAssessment } from '@/context/useAssessment';
 import { BrandLogo } from '@/components/brand/BrandLogo';
@@ -18,14 +19,16 @@ export const ParticipantLobbyPage: React.FC = () => {
   const [email, setEmail] = useState('');
 
   const assessment = getAssessmentBySlug(slug || '');
+  const revealRef = useRef<HTMLElement>(null);
+  usePageReveal(revealRef, assessment?.presentationMode === 'playful' ? 'playful' : 'formal');
 
   if (!assessment) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--color-charcoal)] text-[var(--color-soft-white)] p-4 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-canvas text-ink p-4 text-center">
         <BrandLogo size="md" />
         <h2 className="text-xl font-bold mt-6">Assessment not found</h2>
-        <p className="text-xs text-[var(--color-muted-steel)] mt-1">Check the URL or return to dashboard.</p>
-        <Link to="/dashboard" className="mt-4 px-4 py-2 rounded bg-[#A91535] text-xs font-mono text-white">
+        <p className="text-xs text-muted mt-1">Check the URL or return to dashboard.</p>
+        <Link to="/dashboard" className="mt-4 px-4 py-2 rounded bg-accent text-xs font-mono text-on-accent">
           Open Dashboard
         </Link>
       </div>
@@ -75,8 +78,8 @@ export const ParticipantLobbyPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[var(--color-charcoal)] text-[var(--color-soft-white)]">
-      <header className="w-full border-b border-[var(--color-border-subtle)] bg-[var(--color-charcoal)]/90 py-3.5 px-4 sm:px-6">
+    <div className="min-h-screen flex flex-col justify-between bg-canvas text-ink">
+      <header className="w-full border-b border-line bg-canvas/90 py-3.5 px-4 sm:px-6">
         <div className="mx-auto max-w-4xl flex items-center justify-between">
           <BrandLogo size="sm" linkTo="/" />
           <div className="flex items-center gap-2">
@@ -86,23 +89,23 @@ export const ParticipantLobbyPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-1 flex items-center justify-center p-4 sm:p-6 my-6">
+      <main ref={revealRef} className="flex-1 flex items-center justify-center p-4 sm:p-6 my-6">
         <div className="w-full max-w-md space-y-6">
           <div
             className={cn(
-              'rounded-xl border bg-[var(--color-panel)] p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden',
-              isPlayful ? 'border-[#7A1025] shadow-[#4A0714]/40' : 'border-[var(--color-border-subtle)]'
+              'rounded-xl border bg-surface p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden',
+              isPlayful ? 'border-accent-deep shadow-accent-tint/40' : 'border-line'
             )}
           >
             {isPlayful && (
-              <div className="absolute -top-12 -right-12 w-28 h-28 bg-[#A91535]/20 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute -top-12 -right-12 w-28 h-28 bg-accent/20 rounded-full blur-2xl pointer-events-none" />
             )}
 
             <div className="text-center space-y-2">
-              <div className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-[#C74B63] bg-[#4A0714]/20 px-2.5 py-0.5 rounded-full border border-[#7A1025]/50">
+              <div className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-accent-text bg-accent-tint/20 px-2.5 py-0.5 rounded-full border border-accent-deep/50">
                 {isPlayful ? (
                   <>
-                    <Sparkles className="w-3 h-3 text-[#F4C04E]" />
+                    <Sparkles className="w-3 h-3 text-accent-text" />
                     <span>Interactive Arena Session</span>
                   </>
                 ) : (
@@ -113,25 +116,25 @@ export const ParticipantLobbyPage: React.FC = () => {
                 )}
               </div>
 
-              <div className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-soft-white)]">
+              <div className="text-xl sm:text-2xl font-bold tracking-tight text-ink">
                 <MarkdownView content={assessment.title} />
               </div>
 
               {assessment.description && (
-                <div className="text-xs text-[var(--color-muted-steel)] leading-relaxed max-w-sm mx-auto">
+                <div className="text-xs text-muted leading-relaxed max-w-sm mx-auto">
                   <MarkdownView content={assessment.description} />
                 </div>
               )}
             </div>
 
             <div className="grid grid-cols-2 gap-2 font-mono text-xs pt-2">
-              <div className="p-2.5 rounded bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#5AA9FF]" />
+              <div className="p-2.5 rounded bg-canvas border border-line flex items-center gap-2">
+                <Clock className="w-4 h-4 text-info" />
                 <div>
-                  <div className="text-[10px] uppercase text-[var(--color-muted-steel)]">
+                  <div className="text-[10px] uppercase text-muted">
                     {assessment.timeLimitEnabled ? 'Time Limit' : 'Questions'}
                   </div>
-                  <div className="font-bold text-[var(--color-soft-white)]">
+                  <div className="font-bold text-ink">
                     {assessment.timeLimitEnabled && assessment.activityTimeLimitSeconds
                       ? `${Math.floor(assessment.activityTimeLimitSeconds / 60)} mins`
                       : `${questionsCount} items`}
@@ -139,22 +142,22 @@ export const ParticipantLobbyPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-2.5 rounded bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] flex items-center gap-2">
-                <Award className="w-4 h-4 text-[#F4C04E]" />
+              <div className="p-2.5 rounded bg-canvas border border-line flex items-center gap-2">
+                <Award className="w-4 h-4 text-accent-text" />
                 <div>
-                  <div className="text-[10px] uppercase text-[var(--color-muted-steel)]">Total Points</div>
-                  <div className="font-bold text-[var(--color-soft-white)]">{totalPoints} pts</div>
+                  <div className="text-[10px] uppercase text-muted">Total Points</div>
+                  <div className="font-bold text-ink">{totalPoints} pts</div>
                 </div>
               </div>
             </div>
 
             <form onSubmit={handleStart} className="space-y-4 pt-2">
               <div className="space-y-1.5">
-                <label className="block text-xs font-mono text-[var(--color-muted-steel)]">
+                <label className="block text-xs font-mono text-muted">
                   Enter your Name / Handle *
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-muted-steel)]" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
                   <input
                     type="text"
                     required
@@ -162,21 +165,21 @@ export const ParticipantLobbyPage: React.FC = () => {
                     value={participantName}
                     onChange={(e) => setParticipantName(e.target.value)}
                     placeholder="e.g. Alex Rivera"
-                    className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded-lg pl-9 pr-3 py-2.5 text-sm text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-2 focus:ring-[#A91535] focus:border-transparent font-medium"
+                    className="w-full bg-canvas border border-line rounded-lg pl-9 pr-3 py-2.5 text-sm text-ink placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent font-medium"
                   />
                 </div>
               </div>
 
               {assessment.settings.requireAuth && (
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-mono text-[var(--color-muted-steel)]">Email Address (Required)</label>
+                  <label className="block text-xs font-mono text-muted">Email Address (Required)</label>
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@domain.dev"
-                    className="w-full bg-[var(--color-charcoal)] border border-[var(--color-border-subtle)] rounded-lg px-3 py-2 text-xs text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-1 focus:ring-[#A91535]"
+                    className="w-full bg-canvas border border-line rounded-lg px-3 py-2 text-xs text-ink placeholder-muted focus:outline-none focus:ring-1 focus:ring-accent"
                   />
                 </div>
               )}
@@ -187,8 +190,8 @@ export const ParticipantLobbyPage: React.FC = () => {
                 className={cn(
                   'w-full py-3 px-4 rounded-lg font-mono text-sm font-bold text-white shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer',
                   isPlayful
-                    ? 'bg-gradient-to-r from-[#A91535] to-[#7A1025] hover:from-[#C74B63] hover:to-[#A91535] shadow-[#7A1025]/40 active:scale-98'
-                    : 'bg-[#A91535] hover:bg-[#C74B63]',
+                    ? 'bg-gradient-to-r from-accent to-accent-deep hover:from-accent-text hover:to-accent shadow-accent-deep/40 active:scale-98'
+                    : 'bg-accent hover:bg-accent-hover',
                   !participantName.trim() && 'opacity-50 cursor-not-allowed'
                 )}
               >

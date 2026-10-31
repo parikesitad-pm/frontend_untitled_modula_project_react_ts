@@ -21,15 +21,15 @@ export const AssessmentBadge: React.FC<AssessmentBadgeProps> = ({
 
   if (mode) {
     const modeConfig: Record<AssessmentMode, { label: string; class: string }> = {
-      quiz: { label: 'Quiz', class: 'bg-[#4A0714]/20 text-[#C74B63] border-[#7A1025]' },
-      pretest: { label: 'Pretest', class: 'bg-[var(--color-panel-elevated)] text-[#5AA9FF] border-[#3787E0]/40' },
-      posttest: { label: 'Posttest', class: 'bg-[var(--color-panel-elevated)] text-[#46D19E] border-[#2BB381]/40' },
-      task: { label: 'Task', class: 'bg-[var(--color-panel-elevated)] text-[#F4C04E] border-[#D49D26]/40' },
-      survey: { label: 'Survey', class: 'bg-[var(--color-panel-elevated)] text-[var(--color-steel)] border-[var(--color-border-subtle)]' },
-      form: { label: 'Form', class: 'bg-[var(--color-panel-elevated)] text-[var(--color-muted-steel)] border-[var(--color-border-subtle)]' },
+      quiz: { label: 'Quiz', class: 'bg-accent-tint/20 text-accent-text border-accent-deep' },
+      pretest: { label: 'Pretest', class: 'bg-raised text-info border-info/40' },
+      posttest: { label: 'Posttest', class: 'bg-raised text-success border-success/40' },
+      task: { label: 'Task', class: 'bg-raised text-accent-text border-accent-deep/40' },
+      survey: { label: 'Survey', class: 'bg-raised text-ink-soft border-line' },
+      form: { label: 'Form', class: 'bg-raised text-muted border-line' },
     };
 
-    const cfg = modeConfig[mode] || { label: mode, class: 'bg-[var(--color-panel-elevated)] text-[var(--color-steel)] border-[var(--color-border-subtle)]' };
+    const cfg = modeConfig[mode] || { label: mode, class: 'bg-raised text-ink-soft border-line' };
     return (
       <span className={cn('font-mono uppercase tracking-wider font-semibold border rounded', cfg.class, sizeClasses, className)}>
         {cfg.label}
@@ -39,9 +39,9 @@ export const AssessmentBadge: React.FC<AssessmentBadgeProps> = ({
 
   if (presentation) {
     const presConfig: Record<PresentationMode, { label: string; class: string }> = {
-      formal: { label: 'Formal', class: 'bg-[var(--color-panel-elevated)] text-[var(--color-steel)] border-[var(--color-border-subtle)]' },
-      playful: { label: 'Playful', class: 'bg-[#A91535]/15 text-[#C74B63] border-[#7A1025]' },
-      custom: { label: 'Custom', class: 'bg-[var(--color-panel-elevated)] text-[#F4C04E] border-[#D49D26]/40' },
+      formal: { label: 'Formal', class: 'bg-raised text-ink-soft border-line' },
+      playful: { label: 'Playful', class: 'bg-accent/15 text-accent-text border-accent-deep' },
+      custom: { label: 'Custom', class: 'bg-raised text-accent-text border-accent-deep/40' },
     };
 
     const cfg = presConfig[presentation];
@@ -55,8 +55,8 @@ export const AssessmentBadge: React.FC<AssessmentBadgeProps> = ({
   if (status) {
     const statusConfig = {
       active: { label: 'Live', dot: 'bg-emerald-400 animate-pulse', class: 'text-emerald-600 dark:text-emerald-300 border-emerald-500/30 bg-emerald-950/20' },
-      draft: { label: 'Draft', dot: 'bg-[var(--color-muted-steel)]', class: 'text-[var(--color-muted-steel)] border-[var(--color-border-subtle)] bg-[var(--color-panel-elevated)]' },
-      archived: { label: 'Archived', dot: 'bg-[#7A1025]', class: 'text-[#C74B63] border-[#7A1025]/50 bg-[#4A0714]/20' },
+      draft: { label: 'Draft', dot: 'bg-muted', class: 'text-muted border-line bg-raised' },
+      archived: { label: 'Archived', dot: 'bg-accent-deep', class: 'text-accent-text border-accent-deep/50 bg-accent-tint/20' },
     };
 
     const cfg = statusConfig[status];

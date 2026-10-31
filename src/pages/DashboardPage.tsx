@@ -46,7 +46,7 @@ export const DashboardPage: React.FC = () => {
           actions={
             <Link
               to="/dashboard/new"
-              className="inline-flex items-center gap-1.5 rounded bg-[#A91535] px-4 py-2 font-mono text-xs font-semibold text-white shadow-sm hover:bg-[#C74B63] transition-colors"
+              className="inline-flex items-center gap-1.5 rounded bg-accent px-4 py-2 font-mono text-xs font-semibold text-on-accent shadow-sm hover:bg-accent-hover transition-colors"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Create Assessment</span>
@@ -55,56 +55,56 @@ export const DashboardPage: React.FC = () => {
         />
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 flex items-center gap-3 shadow-sm">
-            <div className="p-2.5 rounded bg-[var(--color-panel-elevated)] text-[var(--color-steel)] border border-[var(--color-border-subtle)]">
+          <div className="rounded-lg border border-line bg-surface p-4 flex items-center gap-3 shadow-sm">
+            <div className="p-2.5 rounded bg-raised text-ink-soft border border-line">
               <Layers className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted-steel)]">Assessments</div>
-              <div className="text-xl font-bold text-[var(--color-soft-white)] font-mono">{totalAssessments}</div>
+              <div className="text-[10px] font-mono uppercase tracking-wider text-muted">Assessments</div>
+              <div className="text-xl font-bold text-ink font-mono">{totalAssessments}</div>
             </div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 flex items-center gap-3 shadow-sm">
+          <div className="rounded-lg border border-line bg-surface p-4 flex items-center gap-3 shadow-sm">
             <div className="p-2.5 rounded bg-emerald-950/30 text-emerald-400 border border-emerald-500/30">
               <CheckCircle2 className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted-steel)]">Active Live</div>
-              <div className="text-xl font-bold text-[var(--color-soft-white)] font-mono">{activeAssessments}</div>
+              <div className="text-[10px] font-mono uppercase tracking-wider text-muted">Active Live</div>
+              <div className="text-xl font-bold text-ink font-mono">{activeAssessments}</div>
             </div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 flex items-center gap-3 shadow-sm">
-            <div className="p-2.5 rounded bg-[#5AA9FF]/10 text-[#5AA9FF] border border-[#3787E0]/30">
+          <div className="rounded-lg border border-line bg-surface p-4 flex items-center gap-3 shadow-sm">
+            <div className="p-2.5 rounded bg-info/10 text-info border border-info/30">
               <Users className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted-steel)]">Total Participants</div>
-              <div className="text-xl font-bold text-[var(--color-soft-white)] font-mono">{totalParticipants}</div>
+              <div className="text-[10px] font-mono uppercase tracking-wider text-muted">Total Participants</div>
+              <div className="text-xl font-bold text-ink font-mono">{totalParticipants}</div>
             </div>
           </div>
 
-          <div className="rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-4 flex items-center gap-3 shadow-sm">
-            <div className="p-2.5 rounded bg-[#7A1025]/30 text-[#C74B63] border border-[#7A1025]">
+          <div className="rounded-lg border border-line bg-surface p-4 flex items-center gap-3 shadow-sm">
+            <div className="p-2.5 rounded bg-accent-deep/30 text-accent-text border border-accent-deep">
               <BarChart2 className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted-steel)]">Avg Score</div>
-              <div className="text-xl font-bold text-[var(--color-soft-white)] font-mono">{avgOverallScore}%</div>
+              <div className="text-[10px] font-mono uppercase tracking-wider text-muted">Avg Score</div>
+              <div className="text-xl font-bold text-ink font-mono">{avgOverallScore}%</div>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
           <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-muted-steel)]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Filter assessments by title..."
-              className="w-full bg-[var(--color-panel)] border border-[var(--color-border-subtle)] rounded-lg pl-9 pr-3 py-1.5 text-xs text-[var(--color-soft-white)] placeholder-[var(--color-muted-steel)] focus:outline-none focus:ring-1 focus:ring-[#A91535]"
+              className="w-full bg-surface border border-line rounded-lg pl-9 pr-3 py-1.5 text-xs text-ink placeholder-muted focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
 
@@ -117,8 +117,8 @@ export const DashboardPage: React.FC = () => {
                 className={cn(
                   'px-2.5 py-1 rounded border transition-colors whitespace-nowrap cursor-pointer',
                   modeFilter === tab.key
-                    ? 'bg-[var(--color-panel-elevated)] text-[var(--color-soft-white)] border-[var(--color-steel)] font-semibold'
-                    : 'bg-[var(--color-panel)] text-[var(--color-muted-steel)] border-[var(--color-border-subtle)] hover:text-[var(--color-steel)]'
+                    ? 'bg-raised text-ink border-ink-soft font-semibold'
+                    : 'bg-surface text-muted border-line hover:text-ink-soft'
                 )}
               >
                 {tab.label}
@@ -134,7 +134,7 @@ export const DashboardPage: React.FC = () => {
             action={
               <Link
                 to="/dashboard/new"
-                className="inline-flex items-center gap-1.5 rounded bg-[#A91535] px-4 py-2 font-mono text-xs font-semibold text-white shadow-sm hover:bg-[#C74B63] transition-colors"
+                className="inline-flex items-center gap-1.5 rounded bg-accent px-4 py-2 font-mono text-xs font-semibold text-on-accent shadow-sm hover:bg-accent-hover transition-colors"
               >
                 <PlusCircle className="w-4 h-4" />
                 <span>Create New Assessment</span>

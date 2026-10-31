@@ -10,7 +10,7 @@ interface AssessmentCardProps {
 
 export const AssessmentCard: React.FC<AssessmentCardProps> = ({ assessment }) => {
   return (
-    <div className="group relative flex flex-col justify-between rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-panel)] p-5 transition-all duration-200 hover:border-[#7A1025] hover:bg-[var(--color-panel-elevated)] hover:shadow-lg hover:shadow-[#4A0714]/15">
+    <div className="group relative flex flex-col justify-between rounded-lg border border-line bg-surface p-5 transition-all duration-200 hover:border-accent-deep hover:bg-raised hover:shadow-lg hover:shadow-accent-tint/15">
       <div>
         {/* Header Badges */}
         <div className="flex items-center justify-between gap-2 mb-3">
@@ -24,40 +24,40 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({ assessment }) =>
         {/* Title & Description */}
         <Link
           to={`/dashboard/${assessment.id}`}
-          className="block group-hover:text-[var(--color-burgundy-bright)] transition-colors"
+          className="block group-hover:text-accent transition-colors"
         >
-          <h3 className="text-base font-semibold text-[var(--color-soft-white)] line-clamp-2 break-words">
+          <h3 className="text-base font-semibold text-ink line-clamp-2 break-words">
             {assessment.title}
           </h3>
-          <p className="mt-1.5 text-xs text-[var(--color-muted-steel)] line-clamp-2 leading-relaxed break-words">
+          <p className="mt-1.5 text-xs text-muted line-clamp-2 leading-relaxed break-words">
             {assessment.description || 'No description provided.'}
           </p>
         </Link>
       </div>
 
       {/* Metrics & Info */}
-      <div className="mt-6 pt-4 border-t border-[var(--color-border-subtle)]/60 flex flex-col gap-3">
-        <div className="grid grid-cols-3 gap-2 font-mono text-[11px] text-[var(--color-muted-steel)]">
+      <div className="mt-6 pt-4 border-t border-line/60 flex flex-col gap-3">
+        <div className="grid grid-cols-3 gap-2 font-mono text-[11px] text-muted">
           <div className="flex items-center gap-1.5">
-            <Users className="w-3.5 h-3.5 text-[var(--color-steel)] shrink-0" />
+            <Users className="w-3.5 h-3.5 text-ink-soft shrink-0" />
             <span className="truncate">{assessment.participantCount} users</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <BarChart2 className="w-3.5 h-3.5 text-[var(--color-steel)] shrink-0" />
+            <BarChart2 className="w-3.5 h-3.5 text-ink-soft shrink-0" />
             <span className="truncate">{assessment.averageScore}% avg</span>
           </div>
           <div className="flex items-center gap-1.5 justify-end">
-            <Clock className="w-3.5 h-3.5 text-[var(--color-steel)] shrink-0" />
+            <Clock className="w-3.5 h-3.5 text-ink-soft shrink-0" />
             <span className="truncate">{assessment.blocks.length} blocks</span>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-between gap-2 pt-2 border-t border-[var(--color-border-subtle)]/40">
+        <div className="flex items-center justify-between gap-2 pt-2 border-t border-line/40">
           <div className="flex items-center gap-1">
             <Link
               to={`/dashboard/${assessment.id}/builder`}
-              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-mono rounded text-[var(--color-steel)] hover:text-[var(--color-soft-white)] hover:bg-[var(--color-panel)] border border-transparent hover:border-[var(--color-border-subtle)] transition-colors"
+              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-mono rounded text-ink-soft hover:text-ink hover:bg-surface border border-transparent hover:border-line transition-colors"
               title="Open Builder"
             >
               <Edit3 className="w-3 h-3" />
@@ -65,7 +65,7 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({ assessment }) =>
             </Link>
             <Link
               to={`/dashboard/${assessment.id}/stats`}
-              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-mono rounded text-[var(--color-steel)] hover:text-[var(--color-soft-white)] hover:bg-[var(--color-panel)] border border-transparent hover:border-[var(--color-border-subtle)] transition-colors"
+              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-mono rounded text-ink-soft hover:text-ink hover:bg-surface border border-transparent hover:border-line transition-colors"
               title="View Analytics"
             >
               <BarChart2 className="w-3 h-3" />
@@ -73,7 +73,7 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({ assessment }) =>
             </Link>
             <Link
               to={`/dashboard/${assessment.id}/settings`}
-              className="inline-flex items-center p-1.5 text-xs font-mono rounded text-[var(--color-muted-steel)] hover:text-[var(--color-soft-white)] hover:bg-[var(--color-panel)] transition-colors"
+              className="inline-flex items-center p-1.5 text-xs font-mono rounded text-muted hover:text-ink hover:bg-surface transition-colors"
               title="Settings"
             >
               <Settings className="w-3.5 h-3.5" />
@@ -83,7 +83,7 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({ assessment }) =>
           <Link
             to={`/${assessment.slug}/start`}
             target="_blank"
-            className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-medium rounded bg-[#7A1025]/20 text-[#C74B63] hover:bg-[#A91535] hover:text-white border border-[#7A1025] transition-all"
+            className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-medium rounded bg-accent-deep/20 text-accent-text hover:bg-accent hover:text-on-accent border border-accent-deep transition-all"
           >
             <Play className="w-3 h-3 fill-current" />
             <span>Play</span>
