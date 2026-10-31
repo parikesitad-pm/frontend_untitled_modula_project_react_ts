@@ -1,4 +1,6 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { RouteSkeleton } from '@/components/organisms/RouteSkeleton';
+import { dismissSplash } from '@/lib/splash';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AssessmentProvider } from '@/context/AssessmentContext';
 import { ThemeProvider } from '@/context/ThemeContext';
@@ -23,14 +25,11 @@ const ParticipantResultPage = lazy(() => import('@/pages/ParticipantResultPage')
 const LeaderboardPage = lazy(() => import('@/pages/LeaderboardPage').then((m) => ({ default: m.LeaderboardPage })));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
 
-const RouteLoadingFallback: React.FC = () => (
-  <div className="min-h-screen flex items-center justify-center bg-[var(--color-charcoal)] text-[var(--color-soft-white)] font-mono text-xs">
-    <div className="flex flex-col items-center gap-3">
-      <div className="w-6 h-6 border-2 border-[#A91535] border-t-transparent rounded-full animate-spin" />
-      <span className="text-[var(--color-muted-steel)]">Loading...</span>
-    </div>
-  </div>
-);
+// Suspends with the routes, so the splash leaves only once the first page can paint.
+const SplashDismiss: React.FC = () => {
+  useEffect(dismissSplash, []);
+  return null;
+};
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,7 +47,8 @@ export const App: React.FC = () => {
         <AuthProvider>
           <AssessmentProvider>
             <BrowserRouter>
-              <Suspense fallback={<RouteLoadingFallback />}>
+              <Suspense fallback={<RouteSkeleton />}>
+                <SplashDismiss />
                 <Routes>
                   {/* Public Root Route */}
                   <Route path="/" element={<LandingPage />} />

@@ -6,18 +6,161 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#181A1C" />
-    <title>Untitled — A MODULA Project</title>
+    <meta name="theme-color" content="#0B0D10" />
+    <title>QUEICE — A MODULA Project</title>
     <meta name="description" content="Build formally. Play when you want. Interactive assessment builder and live play engine under MODULA." />
-    
-    <!-- Preconnect to Google Fonts -->
+
+    <!-- Apply the saved theme before first paint (same key as ThemeContext). -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('untitled_app_theme_v1') || 'dark';
+          var dark = t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', dark);
+          document.documentElement.classList.toggle('light', !dark);
+        } catch (e) {}
+      })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet" />
+
+    <!-- Splash styles live here because Vite injects the app CSS from JS in dev. -->
+    <style>
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: grid;
+        place-items: center;
+        background: #F3F1EA;
+        color: #0D1014;
+      }
+      html.dark #splash {
+        background: #0B0D10;
+        color: #F2F4F7;
+      }
+      /* Amber leading edge, visible as the panel wipes up on exit. */
+      #splash::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 6px;
+        background: #FFB81C;
+      }
+      /* Timeline (keep in sync with SPLASH_MIN_MS in src/lib/splash.ts):
+         0 crest springs in · 250 letters rise · 750 tagline · 200-1700 bar counts in */
+      .splash-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      .splash-crest {
+        opacity: 0;
+        animation: splash-pop 520ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+      .splash-word {
+        display: flex;
+        overflow: hidden;
+        font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif; /* slop-ignore: QUEICE display face, chosen for the stadium-scoreboard voice, not a personal pairing */
+        font-weight: 800;
+        font-size: 44px;
+        line-height: 1;
+        letter-spacing: 0.08em;
+      }
+      .splash-word span {
+        display: inline-block;
+        transform: translateY(105%);
+        animation: splash-rise 560ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .splash-word span:nth-child(1) { animation-delay: 250ms; }
+      .splash-word span:nth-child(2) { animation-delay: 310ms; }
+      .splash-word span:nth-child(3) { animation-delay: 370ms; }
+      .splash-word span:nth-child(4) { animation-delay: 430ms; }
+      .splash-word span:nth-child(5) { animation-delay: 490ms; }
+      .splash-word span:nth-child(6) { animation-delay: 550ms; }
+      .splash-tag {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        opacity: 0;
+        animation: splash-fade 420ms cubic-bezier(0.215, 0.61, 0.355, 1) 750ms forwards;
+      }
+      .splash-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #FF4D42;
+        animation: splash-blink 1s steps(2, jump-none) 900ms infinite;
+      }
+      .splash-track {
+        position: relative;
+        width: 200px;
+        height: 4px;
+        margin-top: 4px;
+        overflow: hidden;
+        border-radius: 2px;
+        background: rgba(127, 127, 127, 0.25);
+      }
+      /* Counts in once, then breathes if the app is still loading. */
+      .splash-bar {
+        position: absolute;
+        inset: 0;
+        background: #FFB81C;
+        transform: scaleX(0);
+        transform-origin: left;
+        animation:
+          splash-fill 1500ms cubic-bezier(0.65, 0, 0.35, 1) 200ms forwards,
+          splash-breathe 900ms ease-in-out 1700ms infinite alternate;
+      }
+      @keyframes splash-pop {
+        from { opacity: 0; transform: scale(0.6); }
+        to { opacity: 1; transform: none; }
+      }
+      @keyframes splash-rise {
+        to { transform: none; }
+      }
+      @keyframes splash-fade {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: none; }
+      }
+      @keyframes splash-blink {
+        to { opacity: 0.2; }
+      }
+      @keyframes splash-fill {
+        to { transform: scaleX(1); }
+      }
+      @keyframes splash-breathe {
+        from { opacity: 1; transform: scaleX(1); }
+        to { opacity: 0.55; transform: scaleX(1); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .splash-crest, .splash-tag { animation: none; opacity: 1; }
+        .splash-word span { animation: none; transform: none; }
+        .splash-dot { animation: none; }
+        .splash-bar { animation: none; transform: none; opacity: 0.6; }
+      }
+    </style>
   </head>
-  <body class="min-h-screen bg-[#181A1C] text-[#F3F4F6] font-sans antialiased selection:bg-[#7A1025] selection:text-white">
+  <body class="min-h-screen font-sans antialiased">
+    <div id="splash" role="status" aria-live="polite">
+      <div class="splash-inner">
+        <img class="splash-crest" src="/brand/modula-owl-128.webp" width="72" height="72" alt="" />
+        <span class="splash-word" aria-label="QUEICE"><span>Q</span><span>U</span><span>E</span><span>I</span><span>C</span><span>E</span></span>
+        <span class="splash-tag"><span class="splash-dot"></span>Build · Assess · Play</span>
+        <div class="splash-track"><div class="splash-bar"></div></div>
+        <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Loading QUEICE</span>
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
